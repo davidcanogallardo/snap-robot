@@ -37,6 +37,9 @@
         <script src="./snap/src/api.js?version=2022-01-03"></script>
         <script src="./snap/src/sha512.js?version=2019-06-27"></script>
         <script src="./snap/src/FileSaver.min.js?version=2019-06-27"></script>
+
+        <!-- socket.io CDN -->
+        <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
         <script>
             var world;
             window.onload = function () {
@@ -46,16 +49,27 @@
                 world = new WorldMorph(document.getElementById('world'));
                 new IDE_Morph().openIn(world);
                 loop();
-			};
+			      };
             function loop() {
                 requestAnimationFrame(loop);
                 world.doOneCycle();
             }
         </script>
+
+        <script src="./env.js"></script>
+        
     </head>
     <body style="margin: 0;">
-        <div id="container">
-          <canvas id="world" tabindex="1"></canvas>
+        <script>
+          const socket = io(socketUrl);
+          window.orange = function () {
+            console.log("socket io emit..");
+            socket.emit('update', {color: "naranja", pos: 1});
+          }
+
+        </script>
+        <div id="container" style="margin: 0;">
+          <canvas id="world" tabindex="1"  style="position: absolute;"></canvas>
         </div>
     </body>
 </html>

@@ -1,4 +1,4 @@
-#container {
+/* #container {
     display: flex;
     justify-content: center;
     align-content: center;
@@ -6,6 +6,6 @@
 
 canvas {
     position: inherit !important;
-    width: 60% !important;
-    height: 60% !important;
-}
+    width: 100% !important;
+    height: 100% !important;
+} */
