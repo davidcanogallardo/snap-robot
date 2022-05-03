@@ -5,4 +5,11 @@
 ``server``: Servidor de socket para el robot  
 ``snap``: Código fuente de snap  
 
-# Links importantes
+# Links de interés:
+- [Repositorio del robot con socket](https://github.com/davidcanogallardo/robot-socket) y [demo del robot](robot.nullpointer.cat)
+- link al trello...
+- planificacion excel...
+- etc
+[]()
+[]()
+[]()
