@@ -41,6 +41,9 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('updateClient', positions);
     }
   });
+  socket.on("getCylindersPositions", (callback) => {
+    callback({positions})
+  });
 });
 
 server.listen(3000, () => {

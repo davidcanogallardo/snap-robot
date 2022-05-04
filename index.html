@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Snap! Build Your Own Blocks</title>
+        <title>r</title>
         <link rel="icon" href="./snap/src/favicon.ico" type="image/x-icon">
         <link rel="manifest" href="./snap/manifest.json">
         <link rel="apple-touch-icon" href="./snap/img/snap-icon-152.png">
@@ -62,12 +62,10 @@
     <body style="margin: 0;">
         <script>
           const socket = io(socketUrl);
-          window.orange = function () {
-            console.log("socket io emit..");
-            socket.emit('update', {color: "naranja", pos: 1});
-          }
-
         </script>
+
+        <script src="./src/js/robotMovement.js"></script>
+        
         <div id="container" style="margin: 0;">
           <canvas id="world" tabindex="1"  style="position: absolute;"></canvas>
         </div>
