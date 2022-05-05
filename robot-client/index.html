@@ -22,21 +22,47 @@
     </script>
 
     <script>
-        socket.on('updateClient', function(msg) {
-            console.log("posiciones actualizadas");
-            if (msg.amarillo != options.amarillo) {
-                options.amarillo = msg.amarillo;
-            }
-            if (msg.rojo != options.rojo) {
-                options.rojo = msg.rojo
-            }
-            if (msg.rosa != options.rosa) {
-                options.rosa = msg.rosa;
-            }
-            if (msg.naranja != options.naranja) {
-                options.naranja = msg.naranja;
-            }
-        });
+        socket.on('positionArm', function (data) {
+            console.log("recibo rotaciones de servidor");
+            all.rotation.set(data.amarillo._x, data.amarillo._y, data.amarillo._z);
+            redPivot.rotation.set(0, 0, 0);
+            pinkPivot.rotation.set(0, 0, 0);
+            pivotGroup.rotation.set(0, 0, 0);
+        })
+
+        socket.on('rotate', (data) =>  {
+            console.log(`roto ${data.arm} ${data.degrees}`);
+            this.nLoops = data.degrees
+            this.currentLoop = 1
+            myLoop(sendArmRotation)
+            // socket.emit('updateArmRotation', {
+            //     amarillo: all.rotation, 
+            //     rojo: redPivot.rotation, 
+            //     rosa: pinkPivot.rotation, 
+            //     naranja: pivotGroup.rotation, 
+            // });
+        })
+
+        function sendArmRotation() {
+            socket.emit('updateArmRotation', {
+                amarillo: all.rotation, 
+                rojo: redPivot.rotation, 
+                rosa: pinkPivot.rotation, 
+                naranja: pivotGroup.rotation, 
+            });
+        }
+
+        function myLoop(callback) {  
+            setTimeout(function() {   
+                all.rotateY(THREE.Math.degToRad(1))
+                this.currentLoop++;          
+                if (this.currentLoop < this.nLoops) {  
+                    myLoop(callback);             
+                } else {
+                    console.log("termino");
+                    callback()
+                }                  
+        }, 1)}
 
         var options = {
             amarillo: 0,
@@ -45,10 +71,10 @@
             naranja: 0,
         };
         var gui = new dat.GUI();
-        gui.add(options, 'amarillo', 0, 7).listen();
-        gui.add(options, 'rojo', 0, 7).listen();
-        gui.add(options, 'rosa', 0, 7).listen();
-        gui.add(options, 'naranja', 0, 7).listen();
+        gui.add(options, 'amarillo', 0, 1).listen();
+        gui.add(options, 'rojo', 0, 1).listen();
+        gui.add(options, 'rosa', 0, 1).listen();
+        gui.add(options, 'naranja', 0, 1).listen();
         // escena y cámara
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -164,37 +190,61 @@
 
         all.add(yellow)
         all.add(redPivot)
-
+        window.yellow = all
        
         scene.add(all);
 
         window.camera = camera
-
+        window.rotate = function (angle) {
+            all.rotateY(THREE.Math.degToRad(angle))
+        }
+        window.position = function (angle) {
+            all.rotation.y = angle
+        }
         function animate() {
             requestAnimationFrame( animate );
             controls.update();
             // Hago un emit el usuario rota un eje
-            if (all.rotation.y != options.amarillo) {
-                socket.emit('update', {color: "amarillo", pos:options.amarillo});
-            }
-            if (redPivot.rotation.x != options.rojo) {
-                socket.emit('update', {color: "rojo", pos:options.rojo});
-            }
-            if (pinkPivot.rotation.x != options.rosa) {
-                socket.emit('update', {color: "rosa", pos:options.rosa});
-            }
-            if (pivotGroup.rotation.x != options.naranja) {
-                socket.emit('update', {color: "naranja", pos: Math.round(options.naranja* 100) / 100});
-            }
+            // if (all.rotation.y != options.amarillo) {
+            //     socket.emit('update', {color: "amarillo", pos:options.amarillo});
+            // }
+            // if (redPivot.rotation.x != options.rojo) {
+            //     socket.emit('update', {color: "rojo", pos:options.rojo});
+            // }
+            // if (pinkPivot.rotation.x != options.rosa) {
+            //     socket.emit('update', {color: "rosa", pos:options.rosa});
+            // }
+            // if (pivotGroup.rotation.x != options.naranja) {
+            //     socket.emit('update', {color: "naranja", pos: Math.round(options.naranja* 100) / 100});
+            // }
             
-            redPivot.rotation.x = options.rojo
-            pinkPivot.rotation.x = options.rosa;
-            pivotGroup.rotation.x = Math.round(options.naranja* 100) / 100;
-            all.rotation.y = options.amarillo;
+            // redPivot.rotation.x = options.rojo
+            // pinkPivot.rotation.x = options.rosa;
+            // pivotGroup.rotation.x = options.naranja;
+            // all.rotation.y = options.amarillo;
+            
+            
 
             renderer.render( scene, camera );
         };
-
+        function rotateArm(arm, degrees) {
+            console.log(all);
+            switch (arm) {
+                case "rojo":
+                    redPivot.rotateX(THREE.Math.degToRad(degrees))
+                    break;
+                case "amarillo":
+                    console.log(arm+" "+degrees);
+                    all.rotateY(THREE.Math.degToRad(degrees))
+                    break;
+                case "rosa":
+                    pinkPivot.rotateX(THREE.Math.degToRad(degrees))
+                    break;
+                case "naranja":
+                    pivotGroup.rotateX(THREE.Math.degToRad(degrees))
+                    break;
+            }
+        }
         animate();
     </script>
 </body>

@@ -10,40 +10,47 @@ const io = new Server(server , {
     }
 });
 
+var positions;
 // rotacion actual de los ejes del robot
 var positions = {
-    amarillo: 0,
-    rojo: 0,
-    rosa: 0,
-    naranja: 0,
+  amarillo: {_x:0,_y:0,_z:0},
+  rojo: {_x:0,_y:0,_z:0},
+  rosa: {_x:0,_y:0,_z:0},
+  naranja: {_x:0,_y:0,_z:0}
 };
 
-// rotación antigua
-var oldValue = {
-    amarillo: 0,
-    rojo: 0,
-    rosa: 0,
-    naranja: 0,
-};
+// // rotación antigua
+// var oldValue = {
+//     amarillo: 0,
+//     rojo: 0,
+//     rosa: 0,
+//     naranja: 0,
+// };
 
 io.on('connection', (socket) => {
-    socket.emit('updateClient', positions);
+    socket.emit('positionArm', positions);
   socket.on('disconnect', () => {
     // console.log('user disconnected');
   });
-  socket.on('update', (msg) => {
-    // console.log(msg);
-    positions[msg.color] = msg.pos
-    // Si la diferencia es mayor o menor de 0.2 respecto al valor 
-    // anterior entonces hago un emit para que actualicen el resto de usuario
-    if (oldValue[msg.color]+0.2< positions[msg.color] || oldValue[msg.color]-0.2> positions[msg.color]) {
-        oldValue[msg.color] = positions[msg.color]
-        socket.broadcast.emit('updateClient', positions);
-    }
+
+  socket.on('sendRotation', (data) => {
+    socket.broadcast.emit('rotate', data);
   });
-  socket.on("getCylindersPositions", (callback) => {
+
+  socket.on('sendArmPosition', (data) => {
+    socket.broadcast.emit('positionArm', positions);
+  });
+
+  socket.on("getArmPositions", (callback) => {
+    // enviar las posiciones de verdad
     callback({positions})
   });
+  
+  socket.on("updateArmRotation", (data) => {
+    console.log(data);
+    positions = data
+  });
+  
 });
 
 server.listen(3000, () => {
