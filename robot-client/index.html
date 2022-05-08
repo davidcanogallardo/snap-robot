@@ -23,27 +23,52 @@
 
     <script>
         socket.on('positionArm', function (data) {
-            console.log("recibo rotaciones de servidor");
+            console.log("recibo rotaciones de servidor",data);
             all.rotation.set(data.amarillo._x, data.amarillo._y, data.amarillo._z);
-            redPivot.rotation.set(0, 0, 0);
-            pinkPivot.rotation.set(0, 0, 0);
-            pivotGroup.rotation.set(0, 0, 0);
+            redPivot.rotation.set(data.rojo._x, data.rojo._y, data.rojo._z);
+            pinkPivot.rotation.set(data.rosa._x, data.rosa._y, data.rosa._z);
+            pivotGroup.rotation.set(data.naranja._x, data.naranja._y, data.naranja._z);
         })
+
+        socket.on('positionArm2', function (data) {
+            console.log("bloque de posicionar",data);
+            switch (data.arm) {
+                case "amarillo":
+                    all.rotation.set(0, THREE.Math.degToRad(data.degrees), 0);
+                    break;
+                case "rojo":
+                    redPivot.rotation.set(THREE.Math.degToRad(data.degrees), 0, 0);
+                    break;
+            
+                case "rosa":
+                    pinkPivot.rotation.set(THREE.Math.degToRad(data.degrees), 0, 0);
+                    break;
+                case "naranja":
+                    pivotGroup.rotation.set(THREE.Math.degToRad(data.degrees), 0, 0);
+                    break;
+            }
+            updateArmRotation()
+        })
+
+        window.position = function () {
+            all.rotation.y = 0
+        }
+
+        window.convert = function () {  
+            console.log(THREE.Math.radToDeg(all.rotation.y));
+            console.log(THREE.Math.degToRad(all.rotation.y));
+        }
 
         socket.on('rotate', (data) =>  {
             console.log(`roto ${data.arm} ${data.degrees}`);
-            this.nLoops = data.degrees
+            this.nLoops = Math.abs(data.degrees)
             this.currentLoop = 1
-            myLoop(sendArmRotation)
-            // socket.emit('updateArmRotation', {
-            //     amarillo: all.rotation, 
-            //     rojo: redPivot.rotation, 
-            //     rosa: pinkPivot.rotation, 
-            //     naranja: pivotGroup.rotation, 
-            // });
+            // Math.sign devuelve -1 si le pasa un número negativo o 1 si le pasas uno positivo
+            this.degrees = Math.sign(data.degrees)
+            myLoop(updateArmRotation, data.arm)
         })
 
-        function sendArmRotation() {
+        function updateArmRotation() {
             socket.emit('updateArmRotation', {
                 amarillo: all.rotation, 
                 rojo: redPivot.rotation, 
@@ -52,15 +77,28 @@
             });
         }
 
-        function myLoop(callback) {  
+        function myLoop(callback, armToRotate) {  
             setTimeout(function() {   
-                all.rotateY(THREE.Math.degToRad(1))
+                switch (armToRotate) {
+                    case "amarillo":
+                        all.rotateY(THREE.Math.degToRad(this.degrees))
+                        break;
+                    case "rosa":
+                        pinkPivot.rotateX(THREE.Math.degToRad(this.degrees))
+                        break;
+                    case "rojo":
+                        redPivot.rotateX(THREE.Math.degToRad(this.degrees))
+                        break;
+                    case "naranja":
+                        pivotGroup.rotateX(THREE.Math.degToRad(this.degrees))
+                        break;
+                }
                 this.currentLoop++;          
                 if (this.currentLoop < this.nLoops) {  
-                    myLoop(callback);             
+                    myLoop(callback,armToRotate);             
                 } else {
-                    console.log("termino");
                     callback()
+                    console.log("termino");
                 }                  
         }, 1)}
 
@@ -198,9 +236,7 @@
         window.rotate = function (angle) {
             all.rotateY(THREE.Math.degToRad(angle))
         }
-        window.position = function (angle) {
-            all.rotation.y = angle
-        }
+  
         function animate() {
             requestAnimationFrame( animate );
             controls.update();

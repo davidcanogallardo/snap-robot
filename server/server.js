@@ -37,17 +37,17 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('rotate', data);
   });
 
-  socket.on('sendArmPosition', (data) => {
-    socket.broadcast.emit('positionArm', positions);
+
+  socket.on('sendArmPosition2', (data) => {
+    socket.broadcast.emit('positionArm2', data);
   });
 
-  socket.on("getArmPositions", (callback) => {
-    // enviar las posiciones de verdad
-    callback({positions})
-  });
+  // socket.on("getArmPositions", (callback) => {
+  //   // enviar las posiciones de verdad
+  //   callback({positions})
+  // });
   
   socket.on("updateArmRotation", (data) => {
-    console.log(data);
     positions = data
   });
   
@@ -56,3 +56,9 @@ io.on('connection', (socket) => {
 server.listen(3000, () => {
   console.log('listening on *:3000');
 });
+
+function degrees_to_radians(degrees)
+{
+  var pi = Math.PI;
+  return degrees * (pi/180);
+}
