@@ -22,86 +22,6 @@
     </script>
 
     <script>
-        socket.on('positionArm', function (data) {
-            console.log("recibo rotaciones de servidor",data);
-            all.rotation.set(data.amarillo._x, data.amarillo._y, data.amarillo._z);
-            redPivot.rotation.set(data.rojo._x, data.rojo._y, data.rojo._z);
-            pinkPivot.rotation.set(data.rosa._x, data.rosa._y, data.rosa._z);
-            pivotGroup.rotation.set(data.naranja._x, data.naranja._y, data.naranja._z);
-        })
-
-        socket.on('positionArm2', function (data) {
-            console.log("bloque de posicionar",data);
-            switch (data.arm) {
-                case "amarillo":
-                    all.rotation.set(0, THREE.Math.degToRad(data.degrees), 0);
-                    break;
-                case "rojo":
-                    redPivot.rotation.set(THREE.Math.degToRad(data.degrees), 0, 0);
-                    break;
-            
-                case "rosa":
-                    pinkPivot.rotation.set(THREE.Math.degToRad(data.degrees), 0, 0);
-                    break;
-                case "naranja":
-                    pivotGroup.rotation.set(THREE.Math.degToRad(data.degrees), 0, 0);
-                    break;
-            }
-            updateArmRotation()
-        })
-
-        window.position = function () {
-            all.rotation.y = 0
-        }
-
-        window.convert = function () {  
-            console.log(THREE.Math.radToDeg(all.rotation.y));
-            console.log(THREE.Math.degToRad(all.rotation.y));
-        }
-
-        socket.on('rotate', (data) =>  {
-            console.log(`roto ${data.arm} ${data.degrees}`);
-            this.nLoops = Math.abs(data.degrees)
-            this.currentLoop = 1
-            // Math.sign devuelve -1 si le pasa un número negativo o 1 si le pasas uno positivo
-            this.degrees = Math.sign(data.degrees)
-            myLoop(updateArmRotation, data.arm)
-        })
-
-        function updateArmRotation() {
-            socket.emit('updateArmRotation', {
-                amarillo: all.rotation, 
-                rojo: redPivot.rotation, 
-                rosa: pinkPivot.rotation, 
-                naranja: pivotGroup.rotation, 
-            });
-        }
-
-        function myLoop(callback, armToRotate) {  
-            setTimeout(function() {   
-                switch (armToRotate) {
-                    case "amarillo":
-                        all.rotateY(THREE.Math.degToRad(this.degrees))
-                        break;
-                    case "rosa":
-                        pinkPivot.rotateX(THREE.Math.degToRad(this.degrees))
-                        break;
-                    case "rojo":
-                        redPivot.rotateX(THREE.Math.degToRad(this.degrees))
-                        break;
-                    case "naranja":
-                        pivotGroup.rotateX(THREE.Math.degToRad(this.degrees))
-                        break;
-                }
-                this.currentLoop++;          
-                if (this.currentLoop < this.nLoops) {  
-                    myLoop(callback,armToRotate);             
-                } else {
-                    callback()
-                    console.log("termino");
-                }                  
-        }, 1)}
-
         var options = {
             amarillo: 0,
             rojo: 0,
@@ -109,10 +29,10 @@
             naranja: 0,
         };
         var gui = new dat.GUI();
-        gui.add(options, 'amarillo', 0, 1).listen();
-        gui.add(options, 'rojo', 0, 1).listen();
-        gui.add(options, 'rosa', 0, 1).listen();
-        gui.add(options, 'naranja', 0, 1).listen();
+        // gui.add(options, 'amarillo', 0, 1).listen();
+        // gui.add(options, 'rojo', 0, 1).listen();
+        // gui.add(options, 'rosa', 0, 1).listen();
+        // gui.add(options, 'naranja', 0, 1).listen();
         // escena y cámara
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -128,13 +48,10 @@
         var controls = new THREE.OrbitControls( camera, renderer.domElement );
         controls.target.set( 0, 0, 0 );
 
-
-
         // cube 1
         const geometry = new THREE.CylinderGeometry(2,2,7,9);
         const material = new THREE.MeshBasicMaterial( {color: 0xffff00, wireframe:true, wireframeLinewidth:10} );
         const yellow = new THREE.Mesh( geometry, material );
-
 
         // cube 2
         const geometry2 = new THREE.CylinderGeometry(2,2,5,9);
@@ -144,6 +61,7 @@
         red1.position.y = yellow.position.y+0.5
         red1.position.x = yellow.position.x+5
         red1.rotation.z = 1.6
+        
         // cube 3
         const geometry3 = new THREE.CylinderGeometry(2,2,11,9);
         const material3 = new THREE.MeshBasicMaterial( {color: 0xf11f00, wireframe:true, wireframeLinewidth:10} );
@@ -198,7 +116,6 @@
         pivotGroup.position.y = orange1.position.y+9
         pivotGroup.position.x = orange1.position.x
         pivotGroup.add( orangeGroup );
-
 
         var pinkGroup = new THREE.Group();
         pinkGroup.position.y = pink1.position.y-20
@@ -263,25 +180,9 @@
 
             renderer.render( scene, camera );
         };
-        function rotateArm(arm, degrees) {
-            console.log(all);
-            switch (arm) {
-                case "rojo":
-                    redPivot.rotateX(THREE.Math.degToRad(degrees))
-                    break;
-                case "amarillo":
-                    console.log(arm+" "+degrees);
-                    all.rotateY(THREE.Math.degToRad(degrees))
-                    break;
-                case "rosa":
-                    pinkPivot.rotateX(THREE.Math.degToRad(degrees))
-                    break;
-                case "naranja":
-                    pivotGroup.rotateX(THREE.Math.degToRad(degrees))
-                    break;
-            }
-        }
+
         animate();
     </script>
+    <script src="./socketClient.js"></script>
 </body>
 </html>
