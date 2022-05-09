@@ -12,6 +12,8 @@
     <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
     <script type="text/javascript" src="./node_modules/socket.io/client-dist/socket.io.js"></script>
 
+
+    
     <style>
         body { margin: 0; }
         </style>
@@ -157,26 +159,6 @@
         function animate() {
             requestAnimationFrame( animate );
             controls.update();
-            // Hago un emit el usuario rota un eje
-            // if (all.rotation.y != options.amarillo) {
-            //     socket.emit('update', {color: "amarillo", pos:options.amarillo});
-            // }
-            // if (redPivot.rotation.x != options.rojo) {
-            //     socket.emit('update', {color: "rojo", pos:options.rojo});
-            // }
-            // if (pinkPivot.rotation.x != options.rosa) {
-            //     socket.emit('update', {color: "rosa", pos:options.rosa});
-            // }
-            // if (pivotGroup.rotation.x != options.naranja) {
-            //     socket.emit('update', {color: "naranja", pos: Math.round(options.naranja* 100) / 100});
-            // }
-            
-            // redPivot.rotation.x = options.rojo
-            // pinkPivot.rotation.x = options.rosa;
-            // pivotGroup.rotation.x = options.naranja;
-            // all.rotation.y = options.amarillo;
-            
-            
 
             renderer.render( scene, camera );
         };

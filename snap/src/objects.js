@@ -8130,20 +8130,23 @@ StageMorph.prototype.moveBy = function (delta) {
 // StageMorph rendering
 
 StageMorph.prototype.render = function (ctx) {
-    ctx.save();
-    ctx.fillStyle = this.color.toString();
-    ctx.fillRect(0, 0, this.width(), this.height());
-    if (this.costume && !(this.costume.loaded instanceof Function)) {
-        ctx.scale(this.scale, this.scale);
-        ctx.drawImage(
-            this.costume.contents,
-            (this.width() / this.scale - this.costume.width()) / 2,
-            (this.height() / this.scale - this.costume.height()) / 2
-        );
-        this.cachedImage = this.applyGraphicsEffects(this.cachedImage);
-    }
-    ctx.restore();
-    this.version = Date.now(); // for observer optimization
+    // ctx.save();
+    // ctx.fillStyle = this.color.toString();
+    // ctx.fillRect(0, 0, this.width(), this.height());
+    console.log("render!");
+    window.c = ctx
+    // startThree(ctx)
+    // if (this.costume && !(this.costume.loaded instanceof Function)) {
+    //     ctx.scale(this.scale, this.scale);
+    //     ctx.drawImage(
+    //         this.costume.contents,
+    //         (this.width() / this.scale - this.costume.width()) / 2,
+    //         (this.height() / this.scale - this.costume.height()) / 2
+    //     );
+    //     this.cachedImage = this.applyGraphicsEffects(this.cachedImage);
+    // }
+    // ctx.restore();
+    // this.version = Date.now(); // for observer optimization
 };
 
 StageMorph.prototype.drawOn = function (ctx, rect) {
@@ -8250,6 +8253,7 @@ StageMorph.prototype.projectionLayer = function () {
     if (!this.projectionCanvas) {
         this.projectionCanvas = newCanvas(this.dimensions, true);
     }
+    window.pc = this.projectionCanvas
     return this.projectionCanvas;
 };
 

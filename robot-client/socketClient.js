@@ -1,4 +1,4 @@
-socket.on('positionArm', function (data) {
+socket.on('initialArmPosition', function (data) {
     console.log("recibo rotaciones de servidor",data);
     all.rotation.set(data.amarillo._x, data.amarillo._y, data.amarillo._z);
     redPivot.rotation.set(data.rojo._x, data.rojo._y, data.rojo._z);
@@ -26,14 +26,14 @@ socket.on('positionArm2', function (data) {
     updateArmRotation()
 })
 
-window.position = function () {
-    all.rotation.y = 0
-}
+// window.position = function () {
+//     all.rotation.y = 0
+// }
 
-window.convert = function () {  
-    console.log(THREE.Math.radToDeg(all.rotation.y));
-    console.log(THREE.Math.degToRad(all.rotation.y));
-}
+// window.convert = function () {  
+//     console.log(THREE.Math.radToDeg(all.rotation.y));
+//     console.log(THREE.Math.degToRad(all.rotation.y));
+// }
 
 rotationQueue = []
 
@@ -82,13 +82,11 @@ function updateArmRotation() {
 }
 
 function rotateArm(arm, degrees) {
-    console.log(all);
     switch (arm) {
         case "rojo":
             redPivot.rotateX(THREE.Math.degToRad(degrees))
             break;
         case "amarillo":
-            console.log(arm+" "+degrees);
             all.rotateY(THREE.Math.degToRad(degrees))
             break;
         case "rosa":

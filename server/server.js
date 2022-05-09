@@ -19,16 +19,8 @@ var positions = {
   naranja: {_x:0,_y:0,_z:0}
 };
 
-// // rotación antigua
-// var oldValue = {
-//     amarillo: 0,
-//     rojo: 0,
-//     rosa: 0,
-//     naranja: 0,
-// };
-
 io.on('connection', (socket) => {
-    socket.emit('positionArm', positions);
+    socket.emit('initialArmPosition', positions);
   socket.on('disconnect', () => {
     // console.log('user disconnected');
   });

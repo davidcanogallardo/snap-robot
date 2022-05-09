@@ -38,6 +38,8 @@
         <script src="./snap/src/sha512.js?version=2019-06-27"></script>
         <script src="./snap/src/FileSaver.min.js?version=2019-06-27"></script>
 
+        <script src="./src/js/initSnap.js"></script>
+
         <!-- socket.io CDN -->
         <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
         <script>
@@ -48,8 +50,9 @@
                 }
                 world = new WorldMorph(document.getElementById('world'));
                 new IDE_Morph().openIn(world);
+                importCustomBlocks()
                 loop();
-			      };
+            };
             function loop() {
                 requestAnimationFrame(loop);
                 world.doOneCycle();

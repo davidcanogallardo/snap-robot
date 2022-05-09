@@ -3784,6 +3784,7 @@ Morph.prototype.penTrails = function () {
 // Morph updating:
 
 Morph.prototype.rerender = function () {
+    // console.log("rerender");
     this.shouldRerender = true;
     this.changed();
 };

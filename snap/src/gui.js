@@ -304,6 +304,7 @@ IDE_Morph.prototype.init = function (isAutoFill) {
 
     // override inherited properites:
     this.color = this.backgroundColor;
+    window.this = this
 };
 
 IDE_Morph.prototype.openIn = function (world) {
@@ -5709,6 +5710,7 @@ IDE_Morph.prototype.rawOpenBlocksString = function (str, name, silently) {
     } else {
         blocks = this.serializer.loadBlocks(str, this.stage);
     }
+    blocks = this.serializer.loadBlocks(str, this.stage);
     if (silently) {
         blocks.global.forEach(def => {
             def.receiver = this.stage;
