@@ -2287,7 +2287,6 @@ SpriteMorph.prototype.projectionSnap = function() {
         offset,
         snap,
         ctx;
-
     if (cst instanceof Costume) {
         rot = cst.rotationCenter.copy();
         cst = cst.contents;
@@ -8134,8 +8133,9 @@ StageMorph.prototype.render = function (ctx) {
     // ctx.fillStyle = this.color.toString();
     // ctx.fillRect(0, 0, this.width(), this.height());
 
-    console.trace("render!");
+    console.log("render!");
     window.c = ctx
+    // arm.init2(ctx)
     // startThree(ctx)
     // if (this.costume && !(this.costume.loaded instanceof Function)) {
     //     ctx.scale(this.scale, this.scale);

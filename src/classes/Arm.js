@@ -4,7 +4,7 @@ class Arm {
         this.camera
         this.renderer
         this.rotationQueue = []
-        this.init2()
+        // this.init2()
     }
 
     init2() {
