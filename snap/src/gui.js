@@ -1162,10 +1162,10 @@ IDE_Morph.prototype.createControlBar = function () {
     button.labelColor = this.buttonLabelColor;
     button.contrast = this.buttonContrast;
     // button.hint = 'cloud operations';
-    button.fixLayout();
-    button.refresh();
+    // button.fixLayout();
+    // button.refresh();
     cloudButton = button;
-    this.controlBar.add(cloudButton);
+    // this.controlBar.add(cloudButton);
     this.controlBar.cloudButton = cloudButton; // for menu positioning & refresh
 
     this.controlBar.fixLayout = function () {
