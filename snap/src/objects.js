@@ -135,15 +135,15 @@ SpriteMorph.prototype.attributes =
         'pen down?',
         'scripts'
     ];
-
+// TODO
 SpriteMorph.prototype.categories =
     [
         'motion',
-        'looks',
-        'sound',
-        'pen',
+        // 'looks',
+        // 'sound',
+        // 'pen',
         'control',
-        'sensing',
+        // 'sensing',
         'operators',
         'variables',
         'lists',
@@ -203,13 +203,13 @@ SpriteMorph.prototype.initBlocks = function () {
     SpriteMorph.prototype.blocks = {
 
         // Motion
-        forward: {
-            only: SpriteMorph,
-            type: 'command',
-            category: 'motion',
-            spec: 'move %n steps',
-            defaults: [10]
-        },
+        // forward: {
+        //     only: SpriteMorph,
+        //     type: 'command',
+        //     category: 'motion',
+        //     spec: 'move %n steps',
+        //     defaults: [10]
+        // },
         turn: {
             only: SpriteMorph,
             type: 'command',
@@ -2433,30 +2433,30 @@ SpriteMorph.prototype.blockTemplates = function (
 
     if (category === 'motion') {
 
-        blocks.push(block('forward'));
-        blocks.push(block('turn'));
-        blocks.push(block('turnLeft'));
-        blocks.push('-');
-        blocks.push(block('setHeading'));
-        blocks.push(block('doFaceTowards'));
-        blocks.push('-');
-        blocks.push(block('gotoXY'));
-        blocks.push(block('doGotoObject'));
-        blocks.push(block('doGlide'));
-        blocks.push('-');
-        blocks.push(block('changeXPosition'));
-        blocks.push(block('setXPosition'));
-        blocks.push(block('changeYPosition'));
-        blocks.push(block('setYPosition'));
-        blocks.push('-');
-        blocks.push(block('bounceOffEdge'));
-        blocks.push('-');
-        blocks.push(watcherToggle('xPosition'));
-        blocks.push(block('xPosition', this.inheritsAttribute('x position')));
-        blocks.push(watcherToggle('yPosition'));
-        blocks.push(block('yPosition', this.inheritsAttribute('y position')));
-        blocks.push(watcherToggle('direction'));
-        blocks.push(block('direction', this.inheritsAttribute('direction')));
+        // blocks.push(block('forward'));
+        // blocks.push(block('turn'));
+        // blocks.push(block('turnLeft'));
+        // blocks.push('-');
+        // blocks.push(block('setHeading'));
+        // blocks.push(block('doFaceTowards'));
+        // blocks.push('-');
+        // blocks.push(block('gotoXY'));
+        // blocks.push(block('doGotoObject'));
+        // blocks.push(block('doGlide'));
+        // blocks.push('-');
+        // blocks.push(block('changeXPosition'));
+        // blocks.push(block('setXPosition'));
+        // blocks.push(block('changeYPosition'));
+        // blocks.push(block('setYPosition'));
+        // blocks.push('-');
+        // blocks.push(block('bounceOffEdge'));
+        // blocks.push('-');
+        // blocks.push(watcherToggle('xPosition'));
+        // blocks.push(block('xPosition', this.inheritsAttribute('x position')));
+        // blocks.push(watcherToggle('yPosition'));
+        // blocks.push(block('yPosition', this.inheritsAttribute('y position')));
+        // blocks.push(watcherToggle('direction'));
+        // blocks.push(block('direction', this.inheritsAttribute('direction')));
 
     } else if (category === 'looks') {
 

@@ -951,7 +951,7 @@ IDE_Morph.prototype.createControlBar = function () {
     button.fixLayout();
     button.refresh();
     steppingButton = button;
-    this.controlBar.add(steppingButton);
+    // this.controlBar.add(steppingButton);
     this.controlBar.steppingButton = steppingButton; // for refreshing
 
     // stopButton
@@ -1359,12 +1359,17 @@ IDE_Morph.prototype.createCategories = function () {
                 SpriteMorph.prototype.blockColor[category]
             ],
             button;
-
+        var label
+        if (category == "motion") {
+            label = "Robot"
+        } else {
+            label = category[0].toUpperCase().concat(category.slice(1))
+        }
         button = new ToggleButtonMorph(
             colors,
             myself, // the IDE is the target
             categorySelectionAction(category),
-            category[0].toUpperCase().concat(category.slice(1)), // label
+            label, // label
             categoryQueryAction(category), // query
             null, // env
             null, // hint
@@ -1639,73 +1644,27 @@ IDE_Morph.prototype.createSpriteBar = function () {
         labels = ['don\'t rotate', 'can rotate', 'only face left/right'],
         myself = this;
 
+        console.error(rotationStyleButtons);
     if (this.spriteBar) {
         this.spriteBar.destroy();
     }
 
     this.spriteBar = new Morph();
-    this.spriteBar.color = this.frameColor;
+    // this.spriteBar.color = this.frameColor;
     this.add(this.spriteBar);
 
-    function addRotationStyleButton(rotationStyle) {
-        var colors = myself.rotationStyleColors,
-            button;
+  
 
-        button = new ToggleButtonMorph(
-            colors,
-            myself, // the IDE is the target
-            () => {
-                if (myself.currentSprite instanceof SpriteMorph) {
-                    myself.currentSprite.rotationStyle = rotationStyle;
-                    myself.currentSprite.changed();
-                    myself.currentSprite.fixLayout();
-                    myself.currentSprite.rerender();
-                    myself.recordUnsavedChanges();
-                }
-                rotationStyleButtons.forEach(each =>
-                    each.refresh()
-                );
-            },
-            symbols[rotationStyle], // label
-            () => myself.currentSprite instanceof SpriteMorph // query
-                && myself.currentSprite.rotationStyle === rotationStyle,
-            null, // environment
-            localize(labels[rotationStyle])
-        );
-
-        button.corner = 8;
-        button.labelMinExtent = new Point(11, 11);
-        button.padding = 0;
-        button.labelShadowOffset = new Point(-1, -1);
-        button.labelShadowColor = colors[1];
-        button.labelColor = myself.buttonLabelColor;
-        button.fixLayout();
-        button.refresh();
-        rotationStyleButtons.push(button);
-        button.setPosition(myself.spriteBar.position().add(new Point(2, 4)));
-        button.setTop(button.top()
-            + ((rotationStyleButtons.length - 1) * (button.height() + 2))
-            );
-        myself.spriteBar.add(button);
-        if (myself.currentSprite instanceof StageMorph) {
-            button.hide();
-        }
-        return button;
-    }
-
-    addRotationStyleButton(1);
-    addRotationStyleButton(2);
-    addRotationStyleButton(0);
-    this.rotationStyleButtons = rotationStyleButtons;
+    this.rotationStyleButtons = null;
 
     thumbnail = new Morph();
     thumbnail.isCachingImage = true;
     thumbnail.bounds.setExtent(thumbSize);
     thumbnail.cachedImage = this.currentSprite.thumbnail(thumbSize);
-    thumbnail.setPosition(
-        rotationStyleButtons[0].topRight().add(new Point(5, 3))
-    );
-    this.spriteBar.add(thumbnail);
+    // thumbnail.setPosition(
+    //     rotationStyleButtons[0].topRight().add(new Point(5, 3))
+    // );
+    // this.spriteBar.add(thumbnail);
 
     thumbnail.fps = 3;
 
@@ -1724,7 +1683,7 @@ IDE_Morph.prototype.createSpriteBar = function () {
     nameField.setWidth(100); // fixed dimensions
     nameField.contrast = 90;
     nameField.setPosition(thumbnail.topRight().add(new Point(10, 3)));
-    this.spriteBar.add(nameField);
+    // this.spriteBar.add(nameField);
     this.spriteBar.nameField = nameField;
     nameField.fixLayout();
     nameField.accept = function () {
@@ -1763,7 +1722,7 @@ IDE_Morph.prototype.createSpriteBar = function () {
 
     padlock.setPosition(nameField.bottomLeft().add(2));
     padlock.fixLayout();
-    this.spriteBar.add(padlock);
+    // this.spriteBar.add(padlock);
     if (this.currentSprite instanceof StageMorph) {
         padlock.hide();
     }
@@ -1811,15 +1770,15 @@ IDE_Morph.prototype.createSpriteBar = function () {
     tab.fixLayout();
     tabBar.add(tab);
 
-    tab = new TabMorph(
-        tabColors,
-        null, // target
-        () => tabBar.tabTo('costumes'),
-        localize(this.currentSprite instanceof SpriteMorph ?
-            'Costumes' : 'Backgrounds'
-        ),
-        () => this.currentTab === 'costumes' // query
-    );
+    // tab = new TabMorph(
+    //     tabColors,
+    //     null, // target
+    //     () => tabBar.tabTo('costumes'),
+    //     localize(this.currentSprite instanceof SpriteMorph ?
+    //         'Costumes' : 'Backgrounds'
+    //     ),
+    //     () => this.currentTab === 'costumes' // query
+    // );
     tab.padding = 3;
     tab.corner = tabCorner;
     tab.edge = 1;
@@ -1829,13 +1788,13 @@ IDE_Morph.prototype.createSpriteBar = function () {
     tab.fixLayout();
     tabBar.add(tab);
 
-    tab = new TabMorph(
-        tabColors,
-        null, // target
-        () => tabBar.tabTo('sounds'),
-        localize('Sounds'), // label
-        () => this.currentTab === 'sounds' // query
-    );
+    // tab = new TabMorph(
+    //     tabColors,
+    //     null, // target
+    //     () => tabBar.tabTo('sounds'),
+    //     localize('Sounds'), // label
+    //     () => this.currentTab === 'sounds' // query
+    // );
     tab.padding = 3;
     tab.corner = tabCorner;
     tab.edge = 1;
@@ -2867,7 +2826,7 @@ IDE_Morph.prototype.selectSprite = function (sprite, noEmptyRefresh) {
         this.categories.refreshEmpty();
     }
     this.createPalette();
-    this.createSpriteBar();
+    // this.createSpriteBar();
     this.createSpriteEditor();
     this.corral.refresh();
     this.fixLayout('selectSprite');
@@ -9299,10 +9258,10 @@ LibraryImportDialogMorph.prototype.displayBlocks = function (libraryKey) {
 };
 
 LibraryImportDialogMorph.prototype.showMessage = function (msgText) {
-    var msg = new MenuMorph(null, msgText);
-    this.initializePalette();
-    this.fixLayout();
-    msg.popUpCenteredInWorld(this.palette.contents);
+    // var msg = new MenuMorph(null, msgText);
+    // this.initializePalette();
+    // this.fixLayout();
+    // msg.popUpCenteredInWorld(this.palette.contents);
 };
 
 // SpriteIconMorph ////////////////////////////////////////////////////

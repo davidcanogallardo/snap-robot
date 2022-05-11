@@ -196,7 +196,7 @@ SnapTranslator.dict.es = {
 
     // categories:
     'Motion':
-        'Movimiento',
+        'Robot',
     'Looks':
         'Apariencia',
     'Sound':

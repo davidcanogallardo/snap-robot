@@ -196,7 +196,7 @@ SnapTranslator.dict.ca_VA = {
 
     // categories:
     'Motion':
-        'Moviment',
+        'Robot',
     'Looks':
         'Aparença',
     'Sound':
