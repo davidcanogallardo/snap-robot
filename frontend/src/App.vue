@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view :style="routerStyle"></router-view>
   </div>
 </template>
 
@@ -8,10 +8,14 @@
 
 export default {
   name: 'App',
-  components: {
-  }
+    data: function() {
+      return{
+        routerStyle: "height: 100%"
+      };
+    }
 }
 </script>
 
 <style>
+
 </style>
