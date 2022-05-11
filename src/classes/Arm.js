@@ -4,7 +4,145 @@ class Arm {
         this.camera
         this.renderer
         this.rotationQueue = []
-        this.init()
+        this.init2()
+    }
+
+    init2() {
+        var recursive_robot_print = function (object_group, componentsArray) {
+            object_group.children.forEach(function (item) {
+                var temp_componentsArray = [];
+                // if(item.type=="Group"  ){
+                if (item.type == "Group" && !item.name.includes("ur10")) {
+                // console.log(item);
+                // console.log( item.type + " - [" +item.name+"]");
+                // console.log(componentsArray);
+    
+                componentsArray[item.name] = item;
+                temp_componentsArray = recursive_robot_print(item, componentsArray);
+                }
+                componentsArray = Object.assign({}, componentsArray, temp_componentsArray);
+            });
+            return componentsArray;
+        }
+        var armCanvas = document.getElementById("arm")
+        var container = document.getElementById("container")
+        let look_x = 0;
+        let look_y = 35;
+        let look_z = 0;
+        var options = {
+          amarillo: 0,
+          rojo: 0,
+          rosa: 0,
+          naranja: 0,
+          verde: 0,
+        };
+        var gui = new dat.GUI();
+        gui.add(options, 'amarillo', 0, 7).listen();
+        gui.add(options, 'rojo', 0, 7).listen();
+        gui.add(options, 'rosa', 0, 7).listen();
+        gui.add(options, 'naranja', 0, 7).listen();
+        gui.add(options, 'verde', 0, 7).listen();
+       
+        // point light
+        var pl = new THREE.PointLight(0xffffff);
+        pl.position.set(30, 60, 40);
+      
+        const sphereSize = 1;
+        // const pointLightHelper = new THREE.PointLightHelper(pl, sphereSize, 0x000000);
+        
+        // scene
+        var scene = new THREE.Scene();
+        scene.background = new THREE.Color("white");
+        scene.add(pl);
+        // scene.add(pointLightHelper);
+      
+        // camera
+        var camera = new THREE.PerspectiveCamera(35, 840 / 680, 0.1, 500);
+        camera.position.set(3, 0.5, 3);
+        camera.position.set(1.5, 3, 5);
+        camera.position.set(50, 100, 135);
+        //camera.add(pl);
+        camera.lookAt(look_x, look_y, look_z);
+        scene.add(camera);
+        window.camera = camera;
+      
+        //AXES HELPER
+        var axes = new THREE.AxisHelper(25);
+        scene.add(axes);
+      
+        // render
+        var renderer = new THREE.WebGLRenderer({canvas:armCanvas});
+        renderer.setSize( 500, 700 );
+        container.appendChild( renderer.domElement );
+        // controls
+        //var controls = new OrbitControls(camera, renderer.domElement);
+        var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.target.set(look_x, look_y, look_z);
+        controls.update();
+        // var controls = new THREE.OrbitControls(camera, renderer.domElement);
+      
+        // app loop
+        var loop = function () {
+          // camera.lookAt(look_x, look_y, look_z);
+          controls.update()
+        //   window.base.rotation.y = options.amarillo
+        //   window.p1.rotation.z = options.rojo
+        //   window.p2.rotation.z = options.rosa
+        //   window.p3.rotation.z = options.naranja
+        //   window.p4.rotation.y = options.verde
+      
+      
+          requestAnimationFrame(loop);
+          renderer.render(scene, camera);
+        //   controls.update();
+        };
+      
+        // CREATE A COLLADALOADER INSTANCE
+        var loader = new  THREE.ColladaLoader();
+        loader.load("./public/ur10_2.dae",  (result) => {
+          let componentsArray = []
+          componentsArray = recursive_robot_print(result.scene, componentsArray)
+          window.ca = componentsArray
+          scene.add(componentsArray.ArmBase)
+          scene.add(componentsArray.ArmBase2)
+          let pivot1 = this.setPivot(componentsArray.ArmBase2, componentsArray.ArmBase3)
+          pivot1.position.y += 5
+          componentsArray.ArmBase3.position.y -= 5
+          let pivot2 = this.setPivot(componentsArray.ArmBase3, componentsArray.ArmBase4)
+          pivot2.position.y += 29
+          componentsArray.ArmBase4.position.y -= 29
+          let pivot3 = this.setPivot(componentsArray.ArmBase4, componentsArray.ArmBase5)
+          pivot3.position.y += 52
+          componentsArray.ArmBase5.position.y -= 52
+          let pivot4 = this.setPivot(componentsArray.ArmBase5, componentsArray.SubArm5)
+          pivot4.position.y += 57
+          componentsArray.SubArm5.position.y -= 57
+          pivot4.position.z -= 6.5  
+          componentsArray.SubArm5.position.z += 6.5
+      
+          window.base = componentsArray.ArmBase2
+          window.p1 = pivot1
+          window.p2 = pivot2
+          window.p3 = pivot3
+          window.p4 = pivot4
+
+          this.all = componentsArray.ArmBase2
+          this.redPivot = pivot1
+          this.pinkPivot = pivot2
+          this.pivotGroup = pivot3
+          loop();
+        });
+    }
+
+    //Funcion que setea un pivot entre dos componentes del robot. Devuelve el pivot
+    setPivot(item1, item2) {
+        //  PARA VER LOS EJES DE LOS PIVOTES
+        //let axes = new THREE.AxisHelper(105) 
+        let pivot = new THREE.Object3D()
+        //pivot.add(axes)
+        item1.add(pivot)
+        pivot.add(item2)
+        return pivot
     }
 
     init() {
@@ -158,6 +296,7 @@ class Arm {
     }
 
     newRotation(data) {
+        // 
         if (this.rotationQueue.length > 0) {
             this.rotationQueue[this.rotationQueue.length] = data
         } else {
@@ -194,16 +333,16 @@ class Arm {
     rotateArm(arm, degrees) {
         switch (arm) {
             case "rojo":
-                this.redPivot.rotateX(THREE.Math.degToRad(degrees))
+                this.redPivot.rotateZ(THREE.Math.degToRad(degrees))
                 break;
             case "amarillo":
                 this.all.rotateY(THREE.Math.degToRad(degrees))
                 break;
             case "rosa":
-                this.pinkPivot.rotateX(THREE.Math.degToRad(degrees))
+                this.pinkPivot.rotateZ(THREE.Math.degToRad(degrees))
                 break;
             case "naranja":
-                this.pivotGroup.rotateX(THREE.Math.degToRad(degrees))
+                this.pivotGroup.rotateZ(THREE.Math.degToRad(degrees))
                 break;
         }
     }
