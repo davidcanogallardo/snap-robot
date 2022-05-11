@@ -5577,6 +5577,9 @@ IDE_Morph.prototype.openProjectString = function (str, callback) {
 };
 
 IDE_Morph.prototype.rawOpenProjectString = function (str) {
+    // TODO
+    snap.importCustomBlocks();
+
     this.toggleAppMode(false);
     this.spriteBar.tabBar.tabTo('scripts');
     if (Process.prototype.isCatchingErrors) {

@@ -8133,7 +8133,8 @@ StageMorph.prototype.render = function (ctx) {
     // ctx.save();
     // ctx.fillStyle = this.color.toString();
     // ctx.fillRect(0, 0, this.width(), this.height());
-    console.log("render!");
+
+    console.trace("render!");
     window.c = ctx
     // startThree(ctx)
     // if (this.costume && !(this.costume.loaded instanceof Function)) {

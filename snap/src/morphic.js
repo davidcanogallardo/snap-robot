@@ -12044,6 +12044,7 @@ WorldMorph.prototype.condenseDamages = function () {
 };
 
 WorldMorph.prototype.doOneCycle = function () {
+    // window.snap.importCustomBlocks()
     this.stepFrame();
     this.stepAnimations();
     this.updateBroken();

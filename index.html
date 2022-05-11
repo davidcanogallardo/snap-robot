@@ -65,7 +65,7 @@
         const socket = io(socketUrl);
         var snap = new Snap({useSocket:false},socket);
         var arm = new Arm();
-        
+        window.snap = snap
         var world = snap.world
         // Loop del SNAP
         function loop() {
