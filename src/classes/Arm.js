@@ -4,7 +4,7 @@ class Arm {
         this.camera
         this.renderer
         this.rotationQueue = []
-        // this.init2()
+        this.init2()
     }
 
     init2() {
@@ -99,7 +99,7 @@ class Arm {
       
         // CREATE A COLLADALOADER INSTANCE
         var loader = new  THREE.ColladaLoader();
-        loader.load("./public/ur10_2.dae",  (result) => {
+        loader.load("./src/arm-3d-model/ur10_2.dae",  (result) => {
           let componentsArray = []
           componentsArray = recursive_robot_print(result.scene, componentsArray)
           window.ca = componentsArray

@@ -8,6 +8,10 @@ class Snap {
     }
 
     init() {
+        var loop = () => {
+            requestAnimationFrame(loop);
+            this.world.doOneCycle();
+        }
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./snap/sw.js');
         }
