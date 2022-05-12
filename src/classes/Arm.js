@@ -60,7 +60,10 @@ class Arm {
       
         // render
         var renderer = new THREE.WebGLRenderer({canvas:armCanvas});
-        renderer.setSize( 500, window.innerHeight );
+        renderer.setSize( 
+            window.world.children[0].children[2].width() - 30, 
+            window.world.children[0].children[2].height() 
+        );
         window.renderer = renderer
         container.appendChild( renderer.domElement );
         // controls
@@ -71,10 +74,11 @@ class Arm {
         // var controls = new THREE.OrbitControls(camera, renderer.domElement);
       
         // app loop
-        var loop = function () {
+        var loop =  () => {
+            // console.log(this.getStage);
             renderer.setSize( 
-                window.world.children[0].children[2].width() - 30, 
-                window.world.children[0].children[2].height() 
+                this.getStage().width() - 30,
+                this.getStage().height()
             );
             requestAnimationFrame(loop);
             renderer.render(scene, camera);
@@ -115,6 +119,16 @@ class Arm {
           this.pivotGroup = pivot3
           loop();
         });
+    }
+
+    getStage() {
+        var length = window.world.children[0].children.length
+        var snapComponents = window.world.children[0].children
+        for (let i = 0; i < length; i++) {
+            if (snapComponents[i].name=="Stage") {
+                return snapComponents[i]       
+            }
+        }
     }
 
     //Funcion que setea un pivot entre dos componentes del robot. Devuelve el pivot
