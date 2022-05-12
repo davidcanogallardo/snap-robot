@@ -11272,13 +11272,14 @@ StageHandleMorph.prototype.mouseDownLeft = function (pos) {
     if (!this.target) {
         return null;
     }
+
     ide.isSmallStage = true;
     ide.controlBar.stageSizeButton.refresh();
 
     this.step = function () {
         var newPos, newWidth;
-        if (world.hand.mouseButton) {
-            newPos = world.hand.bounds.origin.x + offset;
+        if (window.mousedown) {
+            newPos = window.mousePos.x;
             newWidth = this.target.right() - newPos;
             ide.stageRatio = newWidth / this.target.dimensions.x;
             ide.setExtent(world.extent());

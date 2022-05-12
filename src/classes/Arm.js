@@ -77,7 +77,7 @@ class Arm {
         var loop =  () => {
             // console.log(this.getStage);
             renderer.setSize( 
-                this.getStage().width() - 30,
+                this.getStage().width(),
                 this.getStage().height()
             );
             requestAnimationFrame(loop);
