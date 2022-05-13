@@ -1,6 +1,8 @@
 <template>
   <div>
-    <router-link to="/"><h1 id="titulo-main">SNAP<i>!</i>-ROBOT</h1></router-link>
+    <div id="titulo-main">
+      <router-link to="/"><h1>SNAP<i>!</i>-ROBOT</h1></router-link>
+    </div>
     <div class="login-elements">
       <h1 class="login-title">LOGIN</h1>
       <input type="text" placeholder="E-mail">

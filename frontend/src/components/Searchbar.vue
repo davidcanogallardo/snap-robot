@@ -1,5 +1,5 @@
 <template>
-  <label id="searchbar"  for="searchbar"><div v-if="titleOnTop">SEARCH FOR A PROJECT</div><input type="text" ></label>
+  <label id="searchbar"  for="searchbar"><div v-if="titleOnTop">SEARCH FOR A PROJECT</div><input type="text" :placeholder="(titleOnTop)?'':'SEARCH FOR A PROJECT'"></label>
 </template>
 
 <script>
@@ -38,5 +38,6 @@ export default {
   outline:none;
   box-shadow: inset 0px 0px 3px 1px rgba(199, 179, 0, 0.7);
   transition: box-shadow ease-in-out 0.09s;
+  background-color: rgb(85, 85, 64);
 }
 </style>

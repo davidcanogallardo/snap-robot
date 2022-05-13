@@ -1,6 +1,8 @@
 <template>
   <div>
-    <router-link to="/"><h1 id="titulo-main">SNAP<i>!</i>-ROBOT</h1></router-link>
+    <div id="titulo-main">
+      <router-link to="/"><h1>SNAP<i>!</i>-ROBOT</h1></router-link>
+    </div>
     <div class="home-elements">
       <Searchbar :titleOnTop="true" class="searchbar-home"/>
       <input type="button" value="Robot Simulation">

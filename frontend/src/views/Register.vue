@@ -1,6 +1,8 @@
 <template>
   <div>
-    <router-link to="/"><h1 id="titulo-main">SNAP<i>!</i>-ROBOT</h1></router-link>
+    <div id="titulo-main">
+      <router-link to="/"><h1>SNAP<i>!</i>-ROBOT</h1></router-link>
+    </div>
     <div class="register-elements">
       <h1 class="register-title">REGISTER</h1>
       <input type="text" placeholder="Name">
