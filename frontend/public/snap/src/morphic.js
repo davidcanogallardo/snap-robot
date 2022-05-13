@@ -3835,7 +3835,11 @@ Morph.prototype.add = function (aMorph) {
     if (owner !== null) {
         owner.removeChild(aMorph);
     }
+    if (this.name == "Stage") {
+        // console.trace(1)
+    } 
     this.addChild(aMorph);
+    // console.log(this.name);
 };
 
 Morph.prototype.addBack = function (aMorph) {

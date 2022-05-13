@@ -252,6 +252,8 @@ IDE_Morph.prototype.init = function (isAutoFill) {
     // editor
     this.globalVariables = this.scene.globalVariables;
     this.currentSprite = this.scene.addDefaultSprite();
+    console.log(this.currentSprite);
+    this.currentSprite.isVisible = false
     this.sprites = this.scene.sprites;
     this.currentCategory = this.scene.unifiedPalette ? 'unified' : 'motion';
     this.currentTab = 'scripts';
@@ -1919,7 +1921,8 @@ IDE_Morph.prototype.createCorralBar = function () {
 
     this.corralBar = new Morph();
     this.corralBar.color = this.frameColor;
-    this.corralBar.setHeight(this.logo.height()); // height is fixed
+    console.log();
+    this.corralBar.setHeight(this.stage.height()-this.logo.height()); // height is fixed
     this.corralBar.setWidth(this.stage.width());
     this.add(this.corralBar);
 
@@ -1943,7 +1946,7 @@ IDE_Morph.prototype.createCorralBar = function () {
     newbutton.fixLayout();
     newbutton.setCenter(this.corralBar.center());
     newbutton.setLeft(this.corralBar.left() + padding);
-    this.corralBar.add(newbutton);
+    // this.corralBar.add(newbutton);
 
     paintbutton = new PushButtonMorph(
         this,
@@ -1966,7 +1969,7 @@ IDE_Morph.prototype.createCorralBar = function () {
     paintbutton.setLeft(
         this.corralBar.left() + padding + newbutton.width() + padding
     );
-    this.corralBar.add(paintbutton);
+    // this.corralBar.add(paintbutton);
 
     if (CamSnapshotDialogMorph.prototype.enableCamera) {
         cambutton = new PushButtonMorph(
@@ -1996,7 +1999,7 @@ IDE_Morph.prototype.createCorralBar = function () {
             paintbutton.width() +
             padding
         );
-        this.corralBar.add(cambutton);
+        // this.corralBar.add(cambutton);
         document.addEventListener(
             'cameraDisabled',
             event => {
@@ -2027,7 +2030,7 @@ IDE_Morph.prototype.createCorralBar = function () {
     trashbutton.fixLayout();
     trashbutton.setCenter(this.corralBar.center());
     trashbutton.setRight(this.corralBar.right() - padding);
-    this.corralBar.add(trashbutton);
+    // this.corralBar.add(trashbutton);
 
     trashbutton.wantsDropOf = (morph) =>
         morph instanceof SpriteMorph || morph instanceof SpriteIconMorph;
@@ -2072,11 +2075,11 @@ IDE_Morph.prototype.createCorral = function (keepSceneAlbum) {
     this.corral.color = this.groupColor;
     this.corral.getRenderColor = ScriptsMorph.prototype.getRenderColor;
 
-    this.add(this.corral);
+    // this.add(this.corral);
 
     this.corral.stageIcon = new SpriteIconMorph(this.stage);
     this.corral.stageIcon.isDraggable = false;
-    this.corral.add(this.corral.stageIcon);
+    // this.corral.add(this.corral.stageIcon);
 
     frame = new ScrollFrameMorph(null, null, this.sliderColor);
     frame.acceptsDrops = false;
@@ -2084,8 +2087,8 @@ IDE_Morph.prototype.createCorral = function (keepSceneAlbum) {
 
     frame.contents.wantsDropOf = (morph) => morph instanceof SpriteIconMorph;
 
-    frame.contents.reactToDropOf = (spriteIcon) =>
-        this.corral.reactToDropOf(spriteIcon);
+    // frame.contents.reactToDropOf = (spriteIcon) =>
+        // this.corral.reactToDropOf(spriteIcon);
 
     frame.alpha = 0;
 
@@ -2151,7 +2154,7 @@ IDE_Morph.prototype.createCorral = function (keepSceneAlbum) {
     };
 
     this.corral.addSprite = function (sprite) {
-        this.frame.contents.add(new SpriteIconMorph(sprite));
+        // this.frame.contents.add(new SpriteIconMorph(sprite));
         this.fixLayout();
         myself.recordUnsavedChanges();
     };
@@ -2282,6 +2285,11 @@ IDE_Morph.prototype.fixLayout = function (situation) {
         this.corralBar.setLeft(this.stage.left());
         this.corralBar.setTop(this.stage.bottom() + padding);
         this.corralBar.setWidth(this.stage.width());
+        this.corralBar.setHeight(this.world().worldCanvas.height-this.stage.height()-this.logo.height()); // height is fixed
+
+        // console.log(this.world().worldCanvas.height);
+        // TODO
+        // this.corral.setHeight(this.bottom() - this.corral.top());
 
         // corral
         if (!contains(['selectSprite', 'tabEditor'], situation)) {
@@ -3161,8 +3169,8 @@ IDE_Morph.prototype.addNewSprite = function () {
         sprite.turn(rnd.call(this, 1, 360));
     }
 
-    this.sprites.add(sprite);
-    this.corral.addSprite(sprite);
+    // this.sprites.add(sprite);
+    // this.corral.addSprite(sprite);
     this.selectSprite(sprite);
 };
 

@@ -178,6 +178,7 @@ Scene.prototype.addDefaultSprite = function () {
             sprite.extent().divideBy(2)
         )
     );
+    // console.trace(1);
     this.stage.add(sprite);
     this.sprites.add(sprite);
     this.currentSprite = sprite;
