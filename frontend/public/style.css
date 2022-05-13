@@ -1,0 +1,14 @@
+#container {
+    display: flex;
+    justify-content: end;
+    position: absolute;
+    right: 0;
+}
+
+#world {
+    z-index: 0;
+}
+
+#arm {
+    z-index: 1;
+}

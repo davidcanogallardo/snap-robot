@@ -1,0 +1,5 @@
+.DS_Store
+*.swp
+.tern-port
+**node_modules
+env.js

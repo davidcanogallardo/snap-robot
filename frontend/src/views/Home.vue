@@ -6,7 +6,9 @@
     <div class="home-elements">
       <Searchbar :titleOnTop="true" class="searchbar-home"/>
       <input type="button" value="Robot Simulation">
-      <input type="button" value="Control a robot">
+      <a href="./snap.html">
+        <input type="button" value="Control a robot">
+      </a>
       <hr v-if="!logged">
       <router-link to="/login"><input v-if="!logged" type="button" value="Login"></router-link>
       <router-link to="/register"><input v-if="!logged" type="button" value="Register"></router-link>
