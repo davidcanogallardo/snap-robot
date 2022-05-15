@@ -6,7 +6,8 @@
     <div class="home-elements">
       <Searchbar :titleOnTop="true" class="searchbar-home"/>
       <input type="button" value="Robot Simulation">
-      <a href="./snap.html">
+      <!-- <a href="./snap.html"> -->
+      <a @click="launchSnap()">
         <input type="button" value="Control a robot">
       </a>
       <hr v-if="!logged">
@@ -27,6 +28,15 @@ export default {
     logged:{
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    launchSnap() {
+      var snapData = {
+        remoteArm: false,
+      }
+      localStorage.setItem("snapData", JSON.stringify(snapData))
+      document.location.href = './snap.html';
     }
   }
 }

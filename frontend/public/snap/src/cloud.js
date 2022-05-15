@@ -260,19 +260,19 @@ Cloud.prototype.withCredentialsRequest = function (
 // Credentials management
 
 Cloud.prototype.initSession = function (onSuccess) {
-    var myself = this;
-    if (location.protocol === 'file:') {
-        // disabled for now (jens)
-        return;
-    }
-    this.request(
-        'POST',
-        '/init',
-        function () { myself.checkCredentials(onSuccess); },
-        function () {},
-        null,
-        true
-    );
+    // var myself = this;
+    // if (location.protocol === 'file:') {
+    //     // disabled for now (jens)
+    //     return;
+    // }
+    // this.request(
+    //     'POST',
+    //     '/init',
+    //     function () { myself.checkCredentials(onSuccess); },
+    //     function () {},
+    //     null,
+    //     true
+    // );
 };
 
 Cloud.prototype.checkCredentials = function (onSuccess, onError, response) {

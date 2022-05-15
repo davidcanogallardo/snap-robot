@@ -64,10 +64,20 @@
     </div>
     
     <script>
-        // const socket = io(socketUrl);
-        var snap = new Snap({useSocket:false});
+        var snapData = localStorage.getItem("snapData")
+        console.log(snapData);
+
+        const socket = io(socketUrl);
+        
+        var snap = new Snap({
+            "remoteArm": snapData.remoteArm,
+            "armRoomId": snapData.armRoomId,
+            "blocks": snapData.blocks,
+            "project": snapData.project
+        });
+
         var arm = new Arm();
     </script>
-    <!-- <script src="./src/js/socketClient.js"></script> -->
+    <script src="./src/js/socketClient.js"></script>
 </body>
 </html>
