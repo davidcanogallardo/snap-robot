@@ -68,7 +68,7 @@
         console.log(snapData);
 
         const socket = io(socketUrl);
-        
+
         var snap = new Snap({
             "remoteArm": snapData.remoteArm,
             "armRoomId": snapData.armRoomId,
@@ -76,7 +76,7 @@
             "project": snapData.project
         });
 
-        var arm = new Arm();
+        var arm = new Arm(true);
     </script>
     <script src="./src/js/socketClient.js"></script>
 </body>

@@ -4,10 +4,10 @@
       <router-link to="/"><h1>SNAP<i>!</i>-ROBOT</h1></router-link><Searchbar/>
     </div>
     <div class="robot-elements">
-      <input type="text" class="input-code" placeholder="ENTER ROOM CODE">
-      <input type="button" value="Join to a room" @click="wrongCode">
+      <input type="text" class="input-code" placeholder="ENTER ROOM CODE" v-model="roomId">
+      <input type="button" value="Join to a room" @click="joinRoom">
       <hr>
-      <input type="button" value="Host a robotic arm">
+      <input type="button" value="Host a robotic arm" @click="createRoom">
     </div>
   </div>
 </template>
@@ -19,7 +19,32 @@ export default {
   components:{
     Searchbar
   },
+  data() {
+    return {
+      roomId: ""
+    }
+  },
   methods:{
+    createRoom() {
+      this.$socket.emit('createRoom', (data) => {
+        console.log("socket data", data);
+        document.location.href = './arm.html';
+      })
+    },
+    joinRoom() {
+      if (this.roomId == "") {
+        this.wrongCode()
+      } else {
+        this.$socket.emit('roomExists', this.roomId, (data) => {
+          console.log("socket data", data);
+          if (data.roomExists) {
+            // redirigir a donde sea
+          } else {
+            this.wrongCode()
+          }
+        })
+      }
+    },
     wrongCode(){
       let inputCode = document.querySelector('.input-code');
       inputCode.classList.add("wrongCode");

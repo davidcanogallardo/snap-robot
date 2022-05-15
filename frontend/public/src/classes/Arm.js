@@ -1,9 +1,10 @@
 class Arm {
-    constructor() {
+    constructor(armWithSnap) {
         this.scene
         this.camera
         this.renderer
         this.rotationQueue = []
+        this.armWithSnap = armWithSnap
         this.init2()
     }
 
@@ -60,10 +61,17 @@ class Arm {
       
         // render
         var renderer = new THREE.WebGLRenderer({canvas:armCanvas});
-        renderer.setSize( 
-            window.world.children[0].children[2].width() - 30, 
-            window.world.children[0].children[2].height() 
-        );
+        if (this.armWithSnap) {
+            renderer.setSize( 
+                window.world.children[0].children[2].width() - 30, 
+                window.world.children[0].children[2].height() 
+            );
+        } else {
+            renderer.setSize( 
+                window.innerWidth, 
+                window.innerHeight
+            );
+        }
         window.renderer = renderer
         container.appendChild( renderer.domElement );
         // controls
@@ -76,10 +84,17 @@ class Arm {
         // app loop
         var loop =  () => {
             // console.log(this.getStage);
-            renderer.setSize( 
-                this.getStage().width(),
-                this.getStage().height()
-            );
+            if (this.armWithSnap) {
+                renderer.setSize( 
+                    this.getStage().width(),
+                    this.getStage().height()
+                );
+            } else {
+                renderer.setSize( 
+                    window.innerWidth, 
+                    window.innerHeight
+                );
+            }
             requestAnimationFrame(loop);
             renderer.render(scene, camera);
         };
@@ -317,7 +332,10 @@ class Arm {
             if (this.currentLoop < this.nLoops) {  
                 this.myLoop(callback, armToRotate);             
             } else {
-                snap.updateArmRotation(this.getArmPositions())
+                if (this.armWithSnap) {
+                    snap.updateArmRotation(this.getArmPositions())
+                }
+
                 this.rotationQueue.shift()
                 if (this.rotationQueue.length > 0) {
                     this.startRotation(this.rotationQueue[0])
@@ -359,7 +377,9 @@ class Arm {
                 this.pivotGroup.rotation.set(THREE.Math.degToRad(data.degrees), 0, 0);
                 break;
         }
-        snap.updateArmRotation(this.getArmPositions)
+        if (this.armWithSnap) {
+            snap.updateArmRotation(this.getArmPositions)
+        }
     }
 
     initialPos(data) {

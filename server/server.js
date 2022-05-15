@@ -31,33 +31,41 @@ io.on('connection', (socket) => {
     socket.roomId = null
   });
 
+  socket.on('createRoom', (callback) => {
+    var roomId = "#"+(Math.random() + 1).toString(36).substring(6).toUpperCase();
+    while (armPositions[roomId]) {
+      roomId = "#"+(Math.random() + 1).toString(36).substring(6).toUpperCase();
+    }
+    
+    callback({
+      "roomId": roomId
+    })
+  })
+
+  socket.on('roomExists', (roomId, callback) => {
+    var roomExists;
+    if (!armPositions[roomId]) {
+      roomExists = false
+    } else {
+      roomExists = true
+    }
+    callback({
+      "roomExists": roomExists
+    })
+  })
+
   socket.on('joinRoom', (roomId) => {
-    // Lo saca de otra sala si ya estaba
-    if (socket.roomId != null) {
-      console.log("ya tenia una sala antes!");
-      socket.leave(socket.roomId)
-    }
-    // Si es el creador de la sala, crea coordenadas para el robot
-    if (armPositions[roomId] == null) {
-      armPositions[roomId] = JSON.parse(JSON.stringify(defaultPositions))
-    }
-    // Le devuelve las coordenadas
-    io.to(socket.id).emit('initialArmPosition',armPositions[roomId]);
-    // Se une a la sala
-    socket.join(roomId);
-    socket.roomId = roomId
+    joinRoom(socket, roomId)
   })
 
   socket.on("owo", () => {
-    console.log(`peticion owo ${socket.roomId}`);
-    socket.to(socket.roomId).emit("uwu");
+    console.log(`peticion owo ${socket.id}`);
   })
 
   socket.on('sendRotation', (data) => {
     socket.to(socket.roomId).emit('rotate', data);
     // socket.broadcast.emit('rotate', data);
   });
-
 
   socket.on('sendArmPosition2', (data) => {
     socket.to(socket.roomId).emit('positionArm2', data);
@@ -71,12 +79,23 @@ io.on('connection', (socket) => {
   
 });
 
+function joinRoom(socket, roomId) {
+  // Lo saca de otra sala si ya estaba
+  if (socket.roomId != null) {
+    console.log("ya tenia una sala antes!");
+    socket.leave(socket.roomId)
+  }
+  // Si es el creador de la sala, crea coordenadas para el robot
+  if (armPositions[roomId] == null) {
+    armPositions[roomId] = JSON.parse(JSON.stringify(defaultPositions))
+  }
+  // Le devuelve las coordenadas
+  io.to(socket.id).emit('initialArmPosition',armPositions[roomId]);
+  // Se une a la sala
+  socket.join(roomId);
+  socket.roomId = roomId
+}
+
 server.listen(3000, () => {
   console.log('listening on *:3000');
 });
-
-function degrees_to_radians(degrees)
-{
-  var pi = Math.PI;
-  return degrees * (pi/180);
-}

@@ -32,6 +32,7 @@ export default {
   },
   methods: {
     launchSnap() {
+      this.$socket.emit('owo')
       var snapData = {
         remoteArm: false,
       }
