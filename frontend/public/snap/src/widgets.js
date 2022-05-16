@@ -530,6 +530,7 @@ function ToggleButtonMorph(
     hasPreview, // <bool> show press color on left edge (e.g. category)
     isPicture // treat label as picture, i.e. don't apply typography
 ) {
+    // console.trace(action)
     this.init(
         colors,
         target,
@@ -630,6 +631,7 @@ ToggleButtonMorph.prototype.mouseClickLeft = function () {
 // ToggleButtonMorph action
 
 ToggleButtonMorph.prototype.trigger = function () {
+    console.log("---------");
     ToggleButtonMorph.uber.trigger.call(this);
     this.refresh();
 };

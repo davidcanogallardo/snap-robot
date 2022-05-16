@@ -28,6 +28,7 @@ class Snap {
         this.importCustomBlocks()
         this.importProject(project)
         this.enableJS()
+        this.generateText()
 
         if (this.options.blocks) {
             console.log("hay bloques");
@@ -42,6 +43,55 @@ class Snap {
         if (this.remoteArm == true) {
             this.connectToSocketRoom();
         }
+    }
+
+    generateText() {
+        var txt = new StringMorph(
+            "<-------------123456789999999999--------->ewe",
+            22,
+            "sans-serif",
+            false, // true
+            false,
+            false,
+            null,
+            null,
+            "rgba(255, 255, 255)"
+        );
+
+        var nameField = new InputFieldMorph("aaqqq");
+        nameField.setWidth(100); // fixed dimensions
+        nameField.contrast = 90;
+
+        var fun = () => {
+            console.log("finallyyyy",snap);
+        }
+
+        var button = new PushButtonMorph(
+            this,
+            fun,
+            "Conectarse a socket"
+            //'\u2699'
+        );
+        // button.hasNeutralBackground = true;
+        // button.corner = 12;
+        // // button.color = colors[0];
+        // // button.highlightColor = colors[1];
+        // // button.pressColor = colors[0];
+        // button.labelMinExtent = new Point(36, 18);
+        // button.padding = 0;
+        // button.labelShadowOffset = new Point(-1, -1);
+        // // button.labelShadowColor = colors[1];
+        // // button.labelColor = this.buttonLabelColor;
+        // // button.contrast = this.buttonContrast;
+        window.cb.add(button)
+        
+        
+        // // window.txt2 = txt2
+        window.cb.add(txt)
+        window.cb.add(nameField)
+        window.cb.children[3].setPosition(new Point(870,430))
+        window.cb.children[1].setPosition(new Point(870,470))
+        window.cb.children[2].setPosition(new Point(870,500))
     }
 
     enableJS() {

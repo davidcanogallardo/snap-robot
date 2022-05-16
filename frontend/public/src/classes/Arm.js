@@ -133,8 +133,10 @@ class Arm {
           this.redPivot = pivot1
           this.pinkPivot = pivot2
           this.pivotGroup = pivot3
-          if (snap.remoteArm) {
-              this.initialPos(this.initialPositions)
+          if(this.armWithSnap) {
+              if (snap.remoteArm) {
+                  this.initialPos(this.initialPositions)
+              }
           }
           loop();
         });
