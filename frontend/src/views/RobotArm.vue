@@ -28,11 +28,7 @@ export default {
     createRoom() {
       this.$socket.emit('createRoom', (data) => {
         console.log("socket data", data);
-        var snapData = {
-          "armRoomId": data.roomId,
-        }
-        localStorage.setItem("snapData", JSON.stringify(snapData))
-        document.location.href = './arm.html';
+        this.redirect(data.roomId)
       })
     },
     joinRoom() {
@@ -42,12 +38,19 @@ export default {
         this.$socket.emit('roomExists', this.roomId, (data) => {
           console.log("socket data", data);
           if (data.roomExists) {
-            // redirigir a donde sea
+            this.redirect(this.roomId)
           } else {
             this.wrongCode()
           }
         })
       }
+    },
+    redirect(roomId) {
+      var snapData = {
+        "armRoomId": roomId,
+      }
+      localStorage.setItem("snapData", JSON.stringify(snapData))
+      document.location.href = './arm.html';
     },
     wrongCode(){
       let inputCode = document.querySelector('.input-code');

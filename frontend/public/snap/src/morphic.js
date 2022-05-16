@@ -9849,9 +9849,10 @@ TriggerMorph.prototype.fixLayout = function () {
 // TriggerMorph action:
 
 TriggerMorph.prototype.trigger = function () {
-    console.log(11);
-    console.log("target",this.target);
-    console.log("action",this.action);
+    // console.log(11);
+
+    // console.log("target",this.target);
+    // console.log("action",this.action);
     /*
     if target is a function, use it as callback:
     execute target as callback function with action as argument

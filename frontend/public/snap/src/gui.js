@@ -1167,7 +1167,7 @@ IDE_Morph.prototype.createControlBar = function () {
     // button.fixLayout();
     // button.refresh();
     cloudButton = button;
-    this.controlBar.add(cloudButton);
+    // this.controlBar.add(cloudButton);
     this.controlBar.cloudButton = cloudButton; // for menu positioning & refresh
 
     this.controlBar.fixLayout = function () {
@@ -1686,7 +1686,7 @@ IDE_Morph.prototype.createSpriteBar = function () {
     nameField.setWidth(100); // fixed dimensions
     nameField.contrast = 90;
     nameField.setPosition(thumbnail.topRight().add(new Point(10, 3)));
-    this.spriteBar.add(nameField);
+    // this.spriteBar.add(nameField);
     this.spriteBar.nameField = nameField;
     nameField.fixLayout();
     nameField.accept = function () {
