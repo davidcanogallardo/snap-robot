@@ -28,6 +28,10 @@ export default {
     createRoom() {
       this.$socket.emit('createRoom', (data) => {
         console.log("socket data", data);
+        var snapData = {
+          "armRoomId": data.roomId,
+        }
+        localStorage.setItem("snapData", JSON.stringify(snapData))
         document.location.href = './arm.html';
       })
     },

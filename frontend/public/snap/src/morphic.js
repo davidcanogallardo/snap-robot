@@ -8480,6 +8480,20 @@ function StringMorph(
     color,
     fontName
 ) {
+    // console.trace("StringMorhp",text+" "+
+    //     fontSize+" "+
+    //     fontStyle+" "+
+    //     bold+" "+
+    //     italic+" "+
+    //     isNumeric+" "+
+    //     shadowOffset+" "+
+    //     shadowColor+" "+
+    //     color+" "+
+    //     fontName);
+    // console.log(text);
+    // if (text == "a") {
+    //     console.trace("(!!!!!")
+    // }
     this.init(
         text,
         fontSize,

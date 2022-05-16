@@ -23,12 +23,19 @@
     <div id="container">
         <canvas id="arm"></canvas>
     </div>
+    <div id="info" style="position: absolute;z-index: 999;top: 20px;left: 20px;padding: 30px;background-color: #d5d5d5;">
+        <div id="socket"></div>
+        <div>volver</div>
+        <div>conectarte a nueva sala</div>
+        <div>//TODO</div>
+    </div>
     <script>
-        var snapData = localStorage.getItem("snapData")
+        var snapData = JSON.parse(localStorage.getItem("snapData"))
         console.log(snapData);
-
+        document.getElementById("socket").innerText = `Room id: ${snapData.armRoomId}`
 
         const socket = io(socketUrl);
+        socket.emit("joinRoom", snapData.armRoomId)
 
         var arm = new Arm();
     </script>

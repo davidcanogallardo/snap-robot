@@ -25,6 +25,7 @@ class Arm {
             });
             return componentsArray;
         }
+
         var armCanvas = document.getElementById("arm")
         var container = document.getElementById("container")
         let look_x = 0;
@@ -132,6 +133,9 @@ class Arm {
           this.redPivot = pivot1
           this.pinkPivot = pivot2
           this.pivotGroup = pivot3
+          if (snap.remoteArm) {
+              this.initialPos(this.initialPositions)
+          }
           loop();
         });
     }
@@ -295,6 +299,7 @@ class Arm {
         this.pivotGroup = pivotGroup
         this.pinkPivot = pinkPivot
         this.redPivot = redPivot
+
         animate();
     }
 
@@ -380,6 +385,10 @@ class Arm {
         if (this.armWithSnap) {
             snap.updateArmRotation(this.getArmPositions)
         }
+    }
+
+    setInitialPositions(data) {
+        this.initialPositions = data
     }
 
     initialPos(data) {

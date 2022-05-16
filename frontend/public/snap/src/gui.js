@@ -1654,6 +1654,7 @@ IDE_Morph.prototype.createSpriteBar = function () {
     this.spriteBar = new Morph();
     // this.spriteBar.color = this.frameColor;
     this.add(this.spriteBar);
+    window.sb = this.spriteBar
 
   
 
@@ -1921,10 +1922,10 @@ IDE_Morph.prototype.createCorralBar = function () {
 
     this.corralBar = new Morph();
     this.corralBar.color = this.frameColor;
-    console.log();
     this.corralBar.setHeight(this.stage.height()-this.logo.height()); // height is fixed
     this.corralBar.setWidth(this.stage.width());
     this.add(this.corralBar);
+    window.cb = this.corralBar
 
     // new sprite button
     newbutton = new PushButtonMorph(
@@ -2011,38 +2012,34 @@ IDE_Morph.prototype.createCorralBar = function () {
     }
 
     // trash button
-    trashbutton = new PushButtonMorph(
-        this,
-        "undeleteSprites",
-        new SymbolMorph("trash", 18)
-    );
-    trashbutton.corner = 12;
-    trashbutton.color = colors[0];
-    trashbutton.highlightColor = colors[1];
-    trashbutton.pressColor = colors[2];
-    trashbutton.labelMinExtent = new Point(36, 18);
-    trashbutton.padding = 0;
-    trashbutton.labelShadowOffset = new Point(-1, -1);
-    trashbutton.labelShadowColor = colors[1];
-    trashbutton.labelColor = this.buttonLabelColor;
-    trashbutton.contrast = this.buttonContrast;
+    trashbutton = new StringMorph("Make a variable", 10, "sans-serif", true, false, false, "rgba(255,255,255,1)", "rgba(0,0,0,1)")
+    // trashbutton.corner = 12;
+    // trashbutton.color = colors[0];
+    // trashbutton.highlightColor = colors[1];
+    // trashbutton.pressColor = colors[2];
+    // trashbutton.labelMinExtent = new Point(36, 18);
+    // trashbutton.padding = 0;
+    // trashbutton.labelShadowOffset = new Point(-1, -1);
+    // trashbutton.labelShadowColor = colors[1];
+    // trashbutton.labelColor = this.buttonLabelColor;
+    // trashbutton.contrast = this.buttonContrast;
     // trashbutton.hint = "bring back deleted sprites";
     trashbutton.fixLayout();
     trashbutton.setCenter(this.corralBar.center());
     trashbutton.setRight(this.corralBar.right() - padding);
-    // this.corralBar.add(trashbutton);
+    this.corralBar.add(trashbutton);
 
-    trashbutton.wantsDropOf = (morph) =>
-        morph instanceof SpriteMorph || morph instanceof SpriteIconMorph;
+    // trashbutton.wantsDropOf = (morph) =>
+    //     morph instanceof SpriteMorph || morph instanceof SpriteIconMorph;
 
-    trashbutton.reactToDropOf = (droppedMorph) => {
-        if (droppedMorph instanceof SpriteMorph) {
-            this.removeSprite(droppedMorph);
-        } else if (droppedMorph instanceof SpriteIconMorph) {
-            droppedMorph.destroy();
-            this.removeSprite(droppedMorph.object);
-        }
-    };
+    // trashbutton.reactToDropOf = (droppedMorph) => {
+    //     if (droppedMorph instanceof SpriteMorph) {
+    //         this.removeSprite(droppedMorph);
+    //     } else if (droppedMorph instanceof SpriteIconMorph) {
+    //         droppedMorph.destroy();
+    //         this.removeSprite(droppedMorph.object);
+    //     }
+    // };
 
     this.corralBar.fixLayout = function () {
         function updateDisplayOf(button) {

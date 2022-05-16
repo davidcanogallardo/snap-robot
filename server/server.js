@@ -13,7 +13,7 @@ const io = new Server(server , {
 var defaultPositions;
 // rotacion actual de los ejes del robot
 var defaultPositions = {
-  amarillo: {_x:0,_y:45,_z:0},
+  amarillo: {_x:0,_y:0,_z:0},
   rojo: {_x:0,_y:0,_z:0},
   rosa: {_x:0,_y:0,_z:0},
   naranja: {_x:0,_y:0,_z:0}
@@ -55,11 +55,14 @@ io.on('connection', (socket) => {
   })
 
   socket.on('joinRoom', (roomId) => {
+
     joinRoom(socket, roomId)
   })
 
   socket.on("owo", () => {
-    console.log(`peticion owo ${socket.id}`);
+    console.log(`peticion owo ${socket.id}-${socket.roomId}`);
+    socket.to(socket.roomId).emit('ewe');
+
   })
 
   socket.on('sendRotation', (data) => {
@@ -80,6 +83,7 @@ io.on('connection', (socket) => {
 });
 
 function joinRoom(socket, roomId) {
+  console.log(`someone joined ${roomId}`);
   // Lo saca de otra sala si ya estaba
   if (socket.roomId != null) {
     console.log("ya tenia una sala antes!");

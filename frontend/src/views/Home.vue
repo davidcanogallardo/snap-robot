@@ -5,7 +5,9 @@
     </div>
     <div class="home-elements">
       <Searchbar :titleOnTop="true" class="searchbar-home"/>
-      <input type="button" value="Robot Simulation">
+      <router-link to="/robotArm">
+        <input type="button" value="Robot Simulation">
+      </router-link>
       <!-- <a href="./snap.html"> -->
       <a @click="launchSnap()">
         <input type="button" value="Control a robot">
