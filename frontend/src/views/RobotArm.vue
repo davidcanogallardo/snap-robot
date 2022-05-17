@@ -46,10 +46,10 @@ export default {
       }
     },
     redirect(roomId) {
-      var snapData = {
+      var socketData = {
         "armRoomId": roomId,
       }
-      localStorage.setItem("snapData", JSON.stringify(snapData))
+      localStorage.setItem("socketData", JSON.stringify(socketData))
       document.location.href = './arm.html';
     },
     wrongCode(){

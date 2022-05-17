@@ -34,11 +34,10 @@ export default {
   },
   methods: {
     launchSnap() {
-      this.$socket.emit('owo')
-      var snapData = {
-        remoteArm: false,
-      }
-      localStorage.setItem("snapData", JSON.stringify(snapData))
+      // var socketData = {
+      //   remoteArm: false,
+      // }
+      // localStorage.setItem("socketData", JSON.stringify(socketData))
       document.location.href = './snap.html';
     }
   }

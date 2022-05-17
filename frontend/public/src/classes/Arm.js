@@ -6,10 +6,11 @@ class Arm {
         this.rotationQueue = []
         this.rotationQueue2 = []
         this.armWithSnap = armWithSnap
-        this.init2()
+        this.isRendered = false
+        this.init()
     }
 
-    init2() {
+    init() {
         var recursive_robot_print = function (object_group, componentsArray) {
             object_group.children.forEach(function (item) {
                 var temp_componentsArray = [];
@@ -134,11 +135,11 @@ class Arm {
           this.redPivot = pivot1
           this.pinkPivot = pivot2
           this.pivotGroup = pivot3
-          if(this.armWithSnap) {
-              if (snap.remoteArm) {
-                  this.initialPos(this.initialPositions)
-              }
+          this.isRendered = true
+          if (this.armRotations) {
+              this.setArmRotationFromRoom(this.armRotations)
           }
+
           loop();
         });
     }
@@ -164,7 +165,7 @@ class Arm {
         return pivot
     }
 
-    getArmPositions() {
+    getArmRotations() {
         return {
             amarillo: this.all.rotation, 
             rojo: this.redPivot.rotation, 
@@ -173,37 +174,36 @@ class Arm {
         }
     }
 
-    newRotation(data) {
-        // 
+    newRotation(data, cb) {
         if (this.rotationQueue.length > 0) {
-            this.rotationQueue[this.rotationQueue.length] = data
+            this.rotationQueue[this.rotationQueue.length] = {"rotation": data, "callback": cb}
         } else {
-            this.rotationQueue[this.rotationQueue.length] = data
-            this.startRotation(data)
+            this.rotationQueue[this.rotationQueue.length] = {"rotation": data, "callback": cb}
+            this.startRotation({"rotation": data, "callback": cb})
         }
     }
 
     startRotation(data) {
-        this.nLoops = Math.abs(data.degrees)
+        this.nLoops = Math.abs(data.rotation.degrees)
         this.currentLoop = 1
         // Math.sign devuelve -1 si le pasa un número negativo o 1 si le pasas uno positivo
-        this.degrees = Math.sign(data.degrees)
+        this.degrees = Math.sign(data.rotation.degrees)
         console.log("start rotation");
         this.canRotate = true
-        this.myLoop(null, data.arm)
+        this.rotationLoop(data.callback, data.rotation.arm)
     }
 
-    myLoop(callback, armToRotate) {  
+    rotationLoop(callback, armToRotate) {  
         if (this.canRotate) {
             setTimeout(() => {  
                 this.rotateArm(armToRotate, this.degrees)
                 this.currentLoop++;       
                 this.rotationQueue[0].degrees--;
                 if (this.currentLoop < this.nLoops) {  
-                    this.myLoop(callback, armToRotate);             
+                    this.rotationLoop(callback, armToRotate);             
                 } else {
-                    if (this.armWithSnap) {
-                        snap.updateArmRotation(this.getArmPositions())
+                    if (callback) {
+                        callback(this.getArmRotations())
                     }
     
                     this.rotationQueue.shift()
@@ -220,9 +220,10 @@ class Arm {
     stopQueue() {
         this.canRotate = false
         this.rotationQueue = []
-        if (snap.remoteArm) {
+        if (false) {
             console.log("arm stop");
             socket.emit("stopQueue")
+            // TODO emit
         }
     }
 
@@ -236,8 +237,8 @@ class Arm {
                 this.startRotation(this.rotationQueue[0])
             }
         }
-        if (snap.remoteArm) {
-            
+        if (false) {
+            // TODO emit
         }
     }
     
@@ -258,31 +259,34 @@ class Arm {
         }
     }
 
-    positionArm(data) {
+    setArmRotation(data, callback) {
+        console.log(data);
         switch (data.arm) {
             case "amarillo":
                 this.all.rotation.set(0, THREE.Math.degToRad(data.degrees), 0);
                 break;
             case "rojo":
-                this.redPivot.rotation.set(THREE.Math.degToRad(data.degrees), 0, 0);
+                this.redPivot.rotation.set(0, 0, THREE.Math.degToRad(data.degrees));
                 break;
             case "rosa":
-                this.pinkPivot.rotation.set(THREE.Math.degToRad(data.degrees), 0, 0);
+                this.pinkPivot.rotation.set(0, 0, THREE.Math.degToRad(data.degrees));
                 break;
             case "naranja":
-                this.pivotGroup.rotation.set(THREE.Math.degToRad(data.degrees), 0, 0);
+                this.pivotGroup.rotation.set(0, 0, THREE.Math.degToRad(data.degrees));
                 break;
         }
-        if (this.armWithSnap) {
-            snap.updateArmRotation(this.getArmPositions)
+        if (callback) {
+            callback({
+                "positions": this.getArmRotations()
+            })
         }
     }
 
-    setInitialPositions(data) {
-        this.initialPositions = data
+    setArmRotations(data) {
+        this.armRotations = data
     }
 
-    initialPos(data) {
+    setArmRotationFromRoom(data) {
         this.all.rotation.set(data.amarillo._x, data.amarillo._y, data.amarillo._z);
         this.redPivot.rotation.set(data.rojo._x, data.rojo._y, data.rojo._z);
         this.pinkPivot.rotation.set(data.rosa._x, data.rosa._y, data.rosa._z);

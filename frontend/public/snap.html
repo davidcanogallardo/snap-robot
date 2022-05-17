@@ -51,6 +51,8 @@
     <!-- Classes -->
     <script src="./src/classes/Snap.js"></script>
     <script src="./src/classes/Arm.js"></script>
+    <script src="./src/classes/SocketClient.js"></script>
+    <script src="./src/classes/ArmController.js"></script>
 
     <script src="./src/js/mouse.js"></script>
 
@@ -66,18 +68,15 @@
     <script>
         var snapData = localStorage.getItem("snapData")
         console.log(snapData);
-
-        const socket = io(socketUrl);
+        var sc = new SocketClient();
+        var ac = new ArmController();
 
         var snap = new Snap({
-            "remoteArm": snapData.remoteArm,
-            "armRoomId": snapData.armRoomId,
             "blocks": snapData.blocks,
             "project": snapData.project
         });
 
         var arm = new Arm(true);
     </script>
-    <script src="./src/js/socketClient.js"></script>
 </body>
 </html>

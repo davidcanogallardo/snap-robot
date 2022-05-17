@@ -1,7 +1,7 @@
 socket.on('initialArmPosition', function (data) {
     console.log("[socket] initialPosition",data);
     window.ip = data
-    arm.setInitialPositions(data)
+    arm.setArmRotations(data)
 })
 
 socket.on('positionArm2', function (data) {
