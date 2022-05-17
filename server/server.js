@@ -26,6 +26,9 @@ io.on('connection', (socket) => {
     // console.log('user disconnected');
   });
 
+  socket.on('stopQueue', () => {
+    socket.to(socket.roomId).emit('stopQueue2');
+  });
   socket.on('leaveRoom', () => {
     socket.leave(socket.roomId)
     socket.roomId = null

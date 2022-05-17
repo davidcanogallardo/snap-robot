@@ -37,7 +37,7 @@
         const socket = io(socketUrl);
         socket.emit("joinRoom", snapData.armRoomId)
 
-        var arm = new Arm();
+        var arm = new Arm(false);
     </script>
     
     <script src="./src/js/socketClient.js"></script>

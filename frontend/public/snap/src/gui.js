@@ -2786,11 +2786,13 @@ IDE_Morph.prototype.runScripts = function () {
 };
 
 IDE_Morph.prototype.togglePauseResume = function () {
-    if (this.stage.threads.isPaused()) {
-        this.stage.threads.resumeAll(this.stage);
-    } else {
-        this.stage.threads.pauseAll(this.stage);
-    }
+    // TODO 
+    arm.togglePauseResume()
+    // if (this.stage.threads.isPaused()) {
+    //     this.stage.threads.resumeAll(this.stage);
+    // } else {
+    //     this.stage.threads.pauseAll(this.stage);
+    // }
     this.controlBar.pauseButton.refresh();
 };
 
@@ -2800,11 +2802,12 @@ IDE_Morph.prototype.isPaused = function () {
 };
 
 IDE_Morph.prototype.stopAllScripts = function () {
-    if (this.world().currentKey === 16) { // shiftClicked
-        this.scenes.map(scn => scn.stop(true));
-    } else {
-        this.scene.stop();
-    }
+    arm.stopQueue()
+    // if (this.world().currentKey === 16) { // shiftClicked
+    //     this.scenes.map(scn => scn.stop(true));
+    // } else {
+    //     this.scene.stop();
+    // }
     this.controlBar.stopButton.refresh();
 };
 

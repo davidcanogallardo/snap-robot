@@ -13,6 +13,10 @@ socket.on('rotate', (data) =>  {
     console.log("[socket] rotar brazo",data);
     arm.newRotation(data)
 })
-socket.on('ewe', (data) =>  {
-    console.log("ewe");
+socket.on('togglePauseResume', () =>  {
+    arm.togglePauseResume()
+})
+socket.on('stopQueue2', () =>  {
+    console.log("[socket] stop cola");
+    arm.stopQueue()
 })
