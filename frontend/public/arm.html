@@ -35,7 +35,12 @@
         document.getElementById("socket").innerText = `Room id: ${snapData.armRoomId}`
 
         const socket = io(socketUrl);
-        socket.emit("joinRoom", snapData.armRoomId)
+        socket.emit("joinRoom", snapData.armRoomId, (data) => {
+            if (data.roomExists) {
+                console.log(`existe la sala111 ${snapData.armRoomId}`);
+                console.log("aqui estan las posciones q devuelve el servidor",data);
+            }
+        })
 
         var arm = new Arm(false);
     </script>

@@ -93,10 +93,10 @@ class Snap {
         this.socketPanel.add(disconnectRoomBtn);
         // window.cb.add(txt2)
         
-        this.socketPanel.children[1].setPosition(new Point(830,400));
-        this.socketPanel.children[2].setPosition(new Point(830,430));
-        this.socketPanel.children[3].setPosition(new Point(830,470));
-        this.socketPanel.children[4].setPosition(new Point(830,500));
+        this.socketPanel.children[1].setPosition(new Point(860,400));
+        this.socketPanel.children[2].setPosition(new Point(860,430));
+        this.socketPanel.children[3].setPosition(new Point(860,470));
+        this.socketPanel.children[4].setPosition(new Point(860,500));
         // window.cb.children[5].setPosition(new Point(830,540))
     }
 
@@ -168,12 +168,26 @@ class Snap {
             this.roomId = roomId
         }
 
-        socket.emit('roomExists', this.roomId, (data) => {
-            console.log("socket data", data);
-            if (data.roomExists) {
-                console.log(`existe la sala ${this.roomId}`);
-                socket.emit("joinRoom", this.roomId)
+        // socket.emit('roomExists', this.roomId, (data) => {
+        //     console.log("socket data", data);
+        //     if (data.roomExists) {
+        //         console.log(`existe la sala ${this.roomId}`);
+        //         socket.emit("joinRoom", this.roomId)
                 
+        //         this.showMessage(`Conectado a sala ${this.roomId}`)
+
+        //         this.remoteArm = true
+        //     } else {
+        //         this.remoteArm = false
+        //         this.roomId = null
+        //         this.showMessage("No existe la sala")
+        //     }
+        //     this.updateSocketPanel()
+        // })
+        socket.emit("joinRoom", this.roomId, (data) => {
+            if (data.roomExists) {
+                console.log(`existe la sala111 ${this.roomId}`);
+                console.log("aqui estan las posciones q devuelve el servidor",data);
                 this.showMessage(`Conectado a sala ${this.roomId}`)
 
                 this.remoteArm = true
@@ -182,11 +196,11 @@ class Snap {
                 this.roomId = null
                 this.showMessage("No existe la sala")
             }
-            this.updateSocketPanel()
         })
+        this.updateSocketPanel()
     }
     
-    disconnectFromSocketRoom(){
+    disconnectFromSocketRoom() {
         socket.emit("leaveRoom")
         this.remoteArm = false
         this.roomId = null

@@ -39,6 +39,7 @@ io.on('connection', (socket) => {
     while (armPositions[roomId]) {
       roomId = "#"+(Math.random() + 1).toString(36).substring(6).toUpperCase();
     }
+    armPositions[roomId] = JSON.parse(JSON.stringify(defaultPositions))
     
     callback({
       "roomId": roomId
@@ -46,20 +47,23 @@ io.on('connection', (socket) => {
   })
 
   socket.on('roomExists', (roomId, callback) => {
-    var roomExists;
-    if (!armPositions[roomId]) {
-      roomExists = false
-    } else {
-      roomExists = true
-    }
     callback({
-      "roomExists": roomExists
+      "roomExists": this.roomExists(roomId)
     })
   })
 
-  socket.on('joinRoom', (roomId) => {
-
-    joinRoom(socket, roomId)
+  socket.on('joinRoom', (roomId, callback) => {
+    if (roomExists(roomId)) {
+      callback({
+        roomExists: true,
+        "armPositions": armPositions[roomId]
+      })      
+      joinRoom(socket, roomId)
+    } else {
+      callback({
+        roomExists: false 
+      }) 
+    }
   })
 
   socket.on("owo", () => {
@@ -92,15 +96,16 @@ function joinRoom(socket, roomId) {
     console.log("ya tenia una sala antes!");
     socket.leave(socket.roomId)
   }
-  // Si es el creador de la sala, crea coordenadas para el robot
-  if (armPositions[roomId] == null) {
-    armPositions[roomId] = JSON.parse(JSON.stringify(defaultPositions))
-  }
-  // Le devuelve las coordenadas
-  io.to(socket.id).emit('initialArmPosition',armPositions[roomId]);
-  // Se une a la sala
   socket.join(roomId);
   socket.roomId = roomId
+}
+
+function roomExists(roomId) {
+  if (!armPositions[roomId]) {
+    return false
+  } else {
+    return true
+  }
 }
 
 server.listen(3000, () => {
