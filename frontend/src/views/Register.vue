@@ -5,20 +5,51 @@
     </div>
     <div class="register-elements">
       <h1 class="register-title">REGISTER</h1>
-      <input type="text" placeholder="Name">
-      <input type="text" placeholder="E-mail">
-      <input type="text" placeholder="Username">
-      <input type="password" placeholder="Password">
-      <input type="password" placeholder="Confirm Password">
+      <input type="text" v-model="registerForm.name" placeholder="Name">
+      <input type="text" v-model="registerForm.email" placeholder="E-mail">
+      <input type="text" v-model="registerForm.username" placeholder="Username">
+      <input type="password" v-model="registerForm.password" placeholder="Password">
+      <input type="password" v-model="registerForm.c_password" placeholder="Confirm Password">
+      <input type="button" @click="register" value="Register">
+      <hr>
       <router-link to="/login"><input type="button" value="Login"></router-link>
-      <router-link to="/register"><input type="button" value="Register"></router-link>
     </div>
   </div>
 </template>
 
 <script>
+import axios from '../axios_import.js'
 export default {
-  name: 'RegisterComponent'
+  name: 'RegisterComponent',
+  data: function(){
+    return {
+      registerForm:{
+        name: "",
+        email:"",
+        username:"",
+        password:"",
+        c_password:""
+      }
+    };
+  },
+  methods:{
+    register(){
+       axios.get("csrf-cookie").then((response) => {
+         console.log(response)
+         axios.post("register", this.registerForm)
+           .then((response)=>{
+             console.log(response);
+           })
+           .catch((error)=>{
+             console.log(error);
+           });
+         })
+         .catch( (err)=>{
+           console.log(err);
+         }
+         );
+    }
+  }
 }
 </script>
 

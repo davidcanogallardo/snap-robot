@@ -2,6 +2,7 @@
   <div>
     <div id="titulo-main">
       <router-link to="/"><h1>SNAP<i>!</i>-ROBOT</h1></router-link>
+      <div class="userBubble" @click="logout"></div>
     </div>
     <div class="home-elements">
       <Searchbar :titleOnTop="true" class="searchbar-home"/>
@@ -21,6 +22,7 @@
 
 <script>
 import Searchbar from '../components/Searchbar.vue'
+import axios from '../axios_import.js'
 export default {
   name: 'HomeComponent',
   components:{
@@ -34,11 +36,17 @@ export default {
   },
   methods: {
     launchSnap() {
-      // var socketData = {
-      //   remoteArm: false,
-      // }
-      // localStorage.setItem("socketData", JSON.stringify(socketData))
+      this.$socket.emit('owo')
+      var snapData = {
+        remoteArm: false,
+      }
+      localStorage.setItem("snapData", JSON.stringify(snapData))
       document.location.href = './snap.html';
+    },
+    logout() {
+      axios.get("logout").then((response)=>{
+        console.log(response);
+      });
     }
   }
 }
@@ -46,6 +54,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#titulo-main{
+  justify-content: space-between;
+}
 .home-elements{
   display: flex;
   flex-flow: column nowrap;
@@ -71,5 +82,12 @@ export default {
 
 .searchbar-home{
   margin: 0rem 0rem 3rem 0rem;
+}
+
+.userBubble{
+  width:50px;
+  height:50px;
+  background:#fff;
+  border-radius: 50%;
 }
 </style>

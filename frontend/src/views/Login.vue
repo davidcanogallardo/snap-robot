@@ -5,18 +5,50 @@
     </div>
     <div class="login-elements">
       <h1 class="login-title">LOGIN</h1>
-      <input type="text" placeholder="E-mail">
-      <input type="text" placeholder="Username">
-      <input type="password" placeholder="Password">
-      <router-link to="/login"><input type="button" value="Login"></router-link>
+      <input type="text" v-model="loginForm.email" placeholder="E-mail">
+      <input type="password" v-model="loginForm.password" placeholder="Password">
+      <input type="button" @click="login" value="Login">
+      <p class="auth-error">{{error}}</p>
+      <hr>
       <router-link to="/register"><input type="button" value="Register"></router-link>
     </div>
   </div>
 </template>
 
 <script>
+import axios from '../axios_import.js'
 export default {
-  name: 'LoginComponent'
+  name: 'LoginComponent',
+  data: function(){
+    return {
+      loginForm:{
+        email:"",
+        password:""
+      },
+      error:""
+    };
+  },
+  methods:{
+    login(){
+       axios.get("csrf-cookie").then(() => {
+         axios.post("login", this.loginForm)
+           .then((response)=>{
+             if(response.data.success){ 
+               localStorage.setItem("isLogged","true");
+               this.$emit("changeLoggedState", true);
+               this.$router.push("/");
+             }
+           })
+           .catch((error)=>{
+             this.error =error.response.data.message; 
+           });
+         })
+         .catch( (err)=>{
+           console.log(err);
+         }
+         );
+    }
+  }
 }
 </script>
 
@@ -53,5 +85,10 @@ export default {
 
 .login-title{
   font-family: 'JetBrains Mono', monospace;
+}
+
+.auth-error{
+  color: rgb(128, 0, 0);
+  
 }
 </style>
