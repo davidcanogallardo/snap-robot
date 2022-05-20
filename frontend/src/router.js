@@ -27,7 +27,7 @@ const routes = [
       path: "/robotArm",
       name: "robotArm",
       component: RobotArm
-    }
+    },
   ];
   
 const router = new VueRouter({

@@ -41,7 +41,7 @@ export default {
         remoteArm: false,
       }
       localStorage.setItem("snapData", JSON.stringify(snapData))
-      document.location.href = './snap.html';
+      window.location.href = './snap.html';
     },
     logout() {
       axios.get("logout").then((response)=>{
