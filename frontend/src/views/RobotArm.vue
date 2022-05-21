@@ -46,7 +46,7 @@ export default {
       }
     },
     redirect(roomId) {
-	    console.log(roomId,1111)
+      console.log(roomId,1111)
       var socketData = {
         "armRoomId": roomId,
       }

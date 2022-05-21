@@ -98,6 +98,14 @@ class Arm {
                     window.innerHeight
                 );
             }
+
+            if (window.innerWidth < 990 ) {
+                camera.scale.x = 0.5
+            } else {
+                camera.scale.x = 1
+
+            }
+
             requestAnimationFrame(loop);
             renderer.render(scene, camera);
         };

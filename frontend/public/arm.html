@@ -21,7 +21,7 @@
     <!-- env -->
     <script src="./env.js"></script>
 </head>
-<body>
+<body style="overflow: hidden;">
     <div id="container">
         <canvas id="arm"></canvas>
     </div>
@@ -32,10 +32,10 @@
         <div>//TODO</div>
     </div>
     <script>
-	const queryString = window.location.search;
-	const urlParams = new URLSearchParams(queryString);
-	const roomId2 = urlParams.get('roomId')
-	console.log(roomId2)
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const roomId2 = urlParams.get('roomId')
+        console.log(roomId2)
 
         var socketData = JSON.parse(localStorage.getItem("socketData"))
         console.log(socketData);
