@@ -1,7 +1,9 @@
 .DS_Store
 node_modules
 /dist
-src/axios_import.js
+/src/axios_import.js
+axios_import.js
+**axios_import.js
 
 
 # local env files

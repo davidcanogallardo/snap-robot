@@ -32,15 +32,20 @@
         <div>//TODO</div>
     </div>
     <script>
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	const roomId2 = urlParams.get('roomId')
+	console.log(roomId2)
+
         var socketData = JSON.parse(localStorage.getItem("socketData"))
         console.log(socketData);
-        document.getElementById("socket").innerText = `Room id: ${socketData.armRoomId}`
+        document.getElementById("socket").innerText = `Room id: ${roomId2}`
 
         var arm = new Arm(false);
         var ac = new ArmController();
 
         var sc = new SocketClient();
-        sc.connectToRoom(socketData.armRoomId)
+        sc.connectToRoom(roomId2)
 
 
     </script>

@@ -46,11 +46,12 @@ export default {
       }
     },
     redirect(roomId) {
+	    console.log(roomId,1111)
       var socketData = {
         "armRoomId": roomId,
       }
       localStorage.setItem("socketData", JSON.stringify(socketData))
-      document.location.href = window.armUrl;
+      document.location.href = window.armUrl+"?roomId="+roomId;
     },
     wrongCode(){
       let inputCode = document.querySelector('.input-code');

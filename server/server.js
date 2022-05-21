@@ -35,9 +35,9 @@ io.on('connection', (socket) => {
   });
 
   socket.on('createRoom', (callback) => {
-    var roomId = "#"+(Math.random() + 1).toString(36).substring(6).toUpperCase();
+    var roomId = (Math.random() + 1).toString(36).substring(6).toUpperCase();
     while (armPositions[roomId]) {
-      roomId = "#"+(Math.random() + 1).toString(36).substring(6).toUpperCase();
+      roomId = (Math.random() + 1).toString(36).substring(6).toUpperCase();
     }
     armPositions[roomId] = JSON.parse(JSON.stringify(defaultPositions))
     
@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
 
   socket.on('roomExists', (roomId, callback) => {
     callback({
-      "roomExists": this.roomExists(roomId)
+      "roomExists": roomExists(roomId)
     })
   })
 
