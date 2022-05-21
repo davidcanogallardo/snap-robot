@@ -9,6 +9,7 @@ class Snap {
         var loop = () => {
             requestAnimationFrame(loop);
             this.world.doOneCycle();
+            this.updateSocketPanel()
         }
 
         if ('serviceWorker' in navigator) {
@@ -26,7 +27,7 @@ class Snap {
         this.importProject(project)
         this.enableJS()
         this.generateSocketPanel()
-        this.updateSocketPanel()
+        this.updateSocketInfo()
 
         if (this.options.blocks) {
             this.importCustomBlocks(this.options.blocks)
@@ -119,7 +120,7 @@ class Snap {
     connectToSocketRoom() {
         var roomId = this.roomIdInput.children[0].text.text
         sc.connectToRoom(roomId, (socketConnect) => {
-            this.updateSocketPanel(socketConnect)
+            this.updateSocketInfo(socketConnect)
             if (socketConnect) {
                 this.showMessage(`Conectado a sala ${roomId}`)
             } else {
@@ -130,11 +131,10 @@ class Snap {
     
     disconnectFromSocketRoom() {
         sc.disconnect()
-        this.updateSocketPanel(false)
+        this.updateSocketInfo(false)
     }
 
-
-    updateSocketPanel(socketConnect) {
+    updateSocketInfo(socketConnect) {
         if (socketConnect) {
             this.socketPanel.children[1].text = `Conectado a sala ${this.roomIdInput.children[0].text.text}` 
             this.socketPanel.children[1].rerender() 
@@ -145,6 +145,16 @@ class Snap {
             this.socketPanel.children[1].rerender() 
             this.socketPanel.children[4].isVisible = false
             this.socketPanel.children[4].rerender()
+        }
+    }
+
+
+    updateSocketPanel() {
+        if (arm) {
+            this.socketPanel.children[1].setPosition(new Point(arm.getStage().position().x+10, arm.getStage().position().y+arm.getStage().height() + 10)) 
+            this.socketPanel.children[2].setPosition(new Point(arm.getStage().position().x+10, arm.getStage().position().y+arm.getStage().height() + 30)) 
+            this.socketPanel.children[3].setPosition(new Point(arm.getStage().position().x+10, arm.getStage().position().y+arm.getStage().height() + 60)) 
+            this.socketPanel.children[4].setPosition(new Point(arm.getStage().position().x+10, arm.getStage().position().y+arm.getStage().height() + 90)) 
         }
     }
 }

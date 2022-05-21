@@ -50,7 +50,7 @@ export default {
         "armRoomId": roomId,
       }
       localStorage.setItem("socketData", JSON.stringify(socketData))
-      document.location.href = './arm.html';
+      document.location.href = window.armUrl;
     },
     wrongCode(){
       let inputCode = document.querySelector('.input-code');
