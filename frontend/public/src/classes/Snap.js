@@ -4,6 +4,7 @@ class Snap {
         this.init()
     }
 
+    // Crea el canvas de snap
     init() {
         var loop = () => {
             requestAnimationFrame(loop);
@@ -36,6 +37,8 @@ class Snap {
         // }
     }
 
+    // Genera la interfaz (botones e inputs) para conectarte a una sala de socket
+    // utiliza las clases de snap
     generateSocketPanel() {
         this.socketPanel = this.world.children[0].corralBar
         var connStatus = new StringMorph(
@@ -71,13 +74,13 @@ class Snap {
         var connectRoomBtn = new PushButtonMorph(
             this,
             this.connectToSocketRoom,
-            "Conectarse a socket"
+            "Conectarse a una sala"
             //'\u2699'
         );
         var disconnectRoomBtn = new PushButtonMorph(
             this,
             this.disconnectFromSocketRoom,
-            "Desconectarse"
+            "Desconectarse de la sala"
             //'\u2699'
         );
 
@@ -94,26 +97,33 @@ class Snap {
         // window.cb.children[5].setPosition(new Point(830,540))
     }
 
+    // Permite el uso de bloques de JS
     enableJS() {
         Process.prototype.enableJS = true
     }
     
+    // Importa los bloques creados por nosotros
     importCustomBlocks() {
         var blocks = '<blocks app="Snap! 7, https://snap.berkeley.edu" version="2"><block-definition s="eje1" type="reporter" category="motion"><header></header><code></code><translations></translations><inputs></inputs><script><block s="doReport"><l>amarillo</l></block></script></block-definition><block-definition s="eje2" type="reporter" category="motion"><header></header><code></code><translations></translations><inputs></inputs><script><block s="doReport"><l>rojo</l></block></script></block-definition><block-definition s="eje3" type="reporter" category="motion"><header></header><code></code><translations></translations><inputs></inputs><script><block s="doReport"><l>rosa</l></block></script></block-definition><block-definition s="eje4" type="reporter" category="motion"><header></header><code></code><translations></translations><inputs></inputs><script><block s="doReport"><l>naranja</l></block></script></block-definition><block-definition s="posicionar por defecto" type="command" category="motion"><header></header><code></code><translations></translations><inputs></inputs><script><block s="doRun"><block s="reportJSFunction"><list></list><l>ac.position([{arm: "amarillo", "degrees": 0},{arm: "rojo", "degrees": 0},{arm: "rosa", "degrees": 0}, {arm: "naranja", "degrees": 0}])</l></block><list></list></block></script></block-definition><block-definition s="posicionar ejes: %&apos;eje1&apos; %&apos;eje2&apos; %&apos;eje3&apos; %&apos;eje4&apos;" type="command" category="motion"><header></header><code></code><translations></translations><inputs><input type="%n"></input><input type="%n"></input><input type="%n"></input><input type="%n"></input></inputs><script><block s="doRun"><block s="reportJSFunction"><list><l>eje1</l><l>eje2</l><l>eje3</l><l>eje4</l></list><l>snap.positionCylinders(eje1,eje2,eje3,eje4)</l></block><list><block var="eje1"/><block var="eje2"/><block var="eje3"/><block var="eje4"/></list></block></script></block-definition><block-definition s="mover eje %&apos;eje&apos; %&apos;grados&apos; º" type="command" category="motion"><header></header><code></code><translations></translations><inputs><input type="%s"></input><input type="%s"></input></inputs><script><block s="doRun"><block s="reportJSFunction"><list><l>eje</l><l>grados</l></list><l>ac.move({"arm": eje, "degrees": grados})</l></block><list><block var="eje"/><block var="grados"/></list></block></script></block-definition></blocks>'
         this.world.children[0].openBlocksString(blocks,"Bloques robot",true)
     }
 
+    // Muestra un mensaje por pantalla utilizando al función
+    // de snap para mostrar mensajes
     showMessage(txt, secs) {
         this.world.children[0].showMessage(txt, secs || 5)
     }
 
+    // Importa un proyecto pasado por parámetro
     importProject(str) {
         this.world.children[0].openProjectString(str)
     }
 
+    // Llama a la funcion de la clase SocketClient para conectarse a una salal
     connectToSocketRoom() {
         var roomId = this.roomIdInput.children[0].text.text
         sc.connectToRoom(roomId, (socketConnect) => {
+            // Callback para saber si la sala existe o no
             this.updateSocketInfo(socketConnect)
             if (socketConnect) {
                 this.showMessage(`Conectado a sala ${roomId}`)
@@ -123,11 +133,13 @@ class Snap {
         })
     }
     
+    // Llama a la funcion de la clase SocketClient para desconectarse a una salal
     disconnectFromSocketRoom() {
         sc.disconnect()
         this.updateSocketInfo(false)
     }
 
+    // Actualiza la interfaz de socket del snap para informar si está conectado a una sala o no
     updateSocketInfo(socketConnect) {
         if (socketConnect) {
             this.socketPanel.children[1].text = `Conectado a sala ${this.roomIdInput.children[0].text.text}` 
@@ -142,7 +154,8 @@ class Snap {
         }
     }
 
-
+    // Posiciona los objetos de la interfaz de socket respecto al ancho de stage, para cuando se redimensiona
+    // la simulación del brazo
     updateSocketPanel() {
         if (arm) {
             this.socketPanel.children[1].setPosition(new Point(arm.getStage().position().x+10, arm.getStage().position().y+arm.getStage().height() + 10)) 
