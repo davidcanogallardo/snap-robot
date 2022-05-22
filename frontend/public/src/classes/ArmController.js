@@ -3,6 +3,8 @@ class ArmController {
         
     }
 
+    // Mueve el brazo 
+    // si está conectado a una sala de socketio hace un emit
     move(data) {
         if (sc.isConnected()) {
             sc.emitMove(data)
@@ -16,6 +18,8 @@ class ArmController {
         }        
     }
 
+    // Posiciona el brazo 
+    // si está conectado a una sala de socketio hace un emit
     position(axis) {
         if (sc.isConnected()) {
             console.log("positionn");

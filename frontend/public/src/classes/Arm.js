@@ -4,12 +4,15 @@ class Arm {
         this.camera
         this.renderer
         this.rotationQueue = []
-        this.rotationQueue2 = []
+        // Esto sirve para que el brazo actualice el tamaño del 
+        //canvas respecto al tamaño de la ventana (cuando no hay snap) o
+        //respecto al ancho de una de los paneles de snap (cuando hay snap)
         this.armWithSnap = armWithSnap
         this.isRendered = false
         this.init()
     }
 
+    // Crea la simulación del robot
     init() {
         var recursive_robot_print = function (object_group, componentsArray) {
             object_group.children.forEach(function (item) {
@@ -152,6 +155,9 @@ class Arm {
         });
     }
 
+    // Devuelve el componente de snap "Stage" que es donde la simulación del robot está
+    // Utilizo el componente para actualizar el tamaño del canvas cuando el Stage se 
+    // haga más grande
     getStage() {
         var length = window.world.children[0].children.length
         var snapComponents = window.world.children[0].children
@@ -162,6 +168,7 @@ class Arm {
         }
     }
 
+    // (funcion copiada del robot del Xavi xd)
     //Funcion que setea un pivot entre dos componentes del robot. Devuelve el pivot
     setPivot(item1, item2) {
         //  PARA VER LOS EJES DE LOS PIVOTES
@@ -173,6 +180,8 @@ class Arm {
         return pivot
     }
 
+    // devuelve la rotación de los brazos dle robot
+    // para saber en qué posición están
     getArmRotations() {
         return {
             amarillo: this.all.rotation, 
@@ -182,6 +191,10 @@ class Arm {
         }
     }
 
+    // Función que gestiona añade rotaciones a la cola de rotaciones
+    // cb es una función de callback que pasan los usuarios conectado a 
+    // una sala para que cuando termine la rotación devuelva al servidor la
+    // rotación de cada eje para actualizarla en el servidor de node
     newRotation(data, cb) {
         if (this.rotationQueue.length > 0) {
             this.rotationQueue[this.rotationQueue.length] = {"rotation": data, "callback": cb}
@@ -192,29 +205,43 @@ class Arm {
     }
 
     startRotation(data) {
+        // Número de veces que tiene que rotar el brazo 1º, ejemplo: si la rotación es de 360 tiene que rotar el brazo 360 veces 1º
         this.nLoops = Math.abs(data.rotation.degrees)
         this.currentLoop = 1
         // Math.sign devuelve -1 si le pasa un número negativo o 1 si le pasas uno positivo
+        // Esta variable sirve para decir si tiene que rotar en negativo o no
         this.degrees = Math.sign(data.rotation.degrees)
         console.log("start rotation");
         this.canRotate = true
         this.rotationLoop(data.callback, data.rotation.arm)
     }
 
+    // Función que rota el brazo 1º, para dar el efecto de que el brazo rota
+    // se crear un timeout de 1ms y cuando termina se llama así mismo para volver 
+    // rotar 1º
     rotationLoop(callback, armToRotate) {  
+        // Sirve para pausar el brazo (todavía no está terminado)
         if (this.canRotate) {
             setTimeout(() => {  
+                // Rota el brazo
                 this.rotateArm(armToRotate, this.degrees)
+                // actualiza el número de rotaciones
                 this.currentLoop++;       
+                // para pausar el brazo (todavía no está terminado)
                 this.rotationQueue[0].degrees--;
+                // Si el numero de rotaciones hechas es más pequeño que el total
+                // se llama a sí mismo para seguir rotando
                 if (this.currentLoop < this.nLoops) {  
                     this.rotationLoop(callback, armToRotate);             
                 } else {
+                    // Cuando termina la rotación llama el callback si le han pasado callback
                     if (callback) {
                         callback(this.getArmRotations())
                     }
     
+                    // Quita la primera rotacion de la cola
                     this.rotationQueue.shift()
+                    // Si hay más rotaciones en cola empieza la rotación
                     if (this.rotationQueue.length > 0) {
                         this.startRotation(this.rotationQueue[0])
                     }
@@ -225,6 +252,7 @@ class Arm {
         }
     }
 
+    // Para el movimiento del brazo (solo funciona en local, en remoto)
     stopQueue() {
         this.canRotate = false
         this.rotationQueue = []
@@ -235,6 +263,7 @@ class Arm {
         }
     }
 
+    // Pausa / continua la rotación dle brazo (solo funciona en local, en remoto)
     togglePauseResume() {
         console.log("toggle pause resume");
         if (this.canRotate) {
@@ -267,6 +296,9 @@ class Arm {
         }
     }
 
+    // Posicion el brazo en X grados respecto a 0, se pasa un callback
+    // cuando el usuario que llama a la función está conectado por socket.io
+    // para almacenar la rotación en el servidor de socketio
     setArmRotation(data, callback) {
         console.log(data);
         switch (data.arm) {
@@ -290,10 +322,18 @@ class Arm {
         }
     }
 
+    // Guarda en una variable las rotaciones pasadas por parámetros
+    // Esta funcion se llama cuando un usuario se conecta poor socket io 
+    // y el servidor le devuelve las posiciones del brazo, pero como el brazo
+    // aun no está creado las almaceno para utilizarlas cuando el brazo se haya creado
+    // (principalmente se llama en la pagina donde solo está la simulación del brazo porque se conecta antes al socket)
     setArmRotations(data) {
         this.armRotations = data
     }
 
+    // Es una copia de la funcion setArmRotation pero solo se usa para 
+    // setear las rotaciones de devuelve el servidor, mientras que la otra es para setear posiciones
+    // del snap
     setArmRotationFromRoom(data) {
         this.all.rotation.set(data.amarillo._x, data.amarillo._y, data.amarillo._z);
         this.redPivot.rotation.set(data.rojo._x, data.rojo._y, data.rojo._z);

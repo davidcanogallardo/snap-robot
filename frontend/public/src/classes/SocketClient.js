@@ -12,6 +12,8 @@ class SocketClient {
                 this.socketOn()
                 this.connected = true
                 console.log("1");
+                // Si el brazo aún no ha cargado la funcion setArmRotationFromRoom no funciona
+                // porque no existen las variables dle brazo
                 if (arm.isRendered) {
                     arm.setArmRotationFromRoom(data.armPositions)
                 } else {
@@ -66,9 +68,11 @@ class SocketClient {
             console.log("[socket] rotar brazo",data);
             arm.newRotation(data)
         })
+        // no funciona
         this.socket.on('togglePauseResume', () =>  {
             arm.togglePauseResume()
         })
+        // no funciona
         this.socket.on('stopQueue2', () =>  {
             console.log("[socket] stop cola");
             arm.stopQueue()
