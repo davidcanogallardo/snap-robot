@@ -14,7 +14,7 @@
       <div class="projects-container">
         <div class="project">
           <h2>Description:</h2>{{post.post_desc}} <br>
-          <input type="button" value="Open Project" @click="openProject">
+          <input type="button" value="Open Project" @click="openProject" :postId="project.post_id">
         </div>
       </div>
     </div>
@@ -47,7 +47,8 @@ export default {
     userData:{}
   },
   methods:{
-    openProject(){
+    openProject(event){
+      console.log(event.target.attributes.postid.value);
       //TODO LOCATION HREF OR SOMETHING
     }
   },

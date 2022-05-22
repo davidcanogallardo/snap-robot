@@ -14,7 +14,7 @@
         <div v-for="project in userPosts" :key="project.post_id" class="project">
           <h2>{{project.name}}</h2> by {{project.username}} <br>
           <input type="button" value="Project Details" @click="projectDetails" :postId="project.post_id">
-          <input type="button" value="Open Project" @click="openProject">
+          <input type="button" value="Open Project" @click="openProject" :postId="project.post_id">
         </div>
       </div>
     </div>
@@ -63,7 +63,8 @@ export default {
         console.error(err);
       });
     },
-    openProject(){
+    openProject(event){
+      console.log(event.target.attributes.postid.value);
       //TODO LOCATION HREF OR SOMETHING
     }
   },
