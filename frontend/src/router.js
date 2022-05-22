@@ -4,6 +4,8 @@ import Home from "./views/Home.vue";
 import Register from "./views/Register.vue";
 import Login from "./views/Login.vue";
 import Profile from "./views/Profile.vue";
+import Post from "./views/Post.vue";
+import Search from "./views/Search.vue";
 import RobotArm from "./views/RobotArm.vue";
 
 Vue.use(VueRouter)
@@ -55,6 +57,22 @@ const routes = [
       component: Profile,
       meta: {
         requiresAuth: true
+      }
+    },
+    {
+      path: "/post/:postId",
+      name: "post",
+      component: Post,
+      meta: {
+        guest: true
+      }
+    },
+    {
+      path: "/search/:searchParam",
+      name: "search",
+      component: Search,
+      meta: {
+        guest: true
       }
     }
   ];

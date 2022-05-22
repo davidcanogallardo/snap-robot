@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="titulo-main">
+    <div id="titulo-main" class="titulo-main-bubble">
       <router-link to="/"><h1>SNAP<i>!</i>-ROBOT</h1></router-link>
       <UserBubble v-if="logged"></UserBubble>
     </div>
@@ -22,7 +22,7 @@
 
 <script>
 import Searchbar from '../components/Searchbar.vue'
-import UserBubble from '@/components/UserBubble.vue';
+import UserBubble from '../components/UserBubble.vue';
 export default {
   name: 'HomeComponent',
   components:{
@@ -50,10 +50,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#titulo-main{
-  justify-content: space-between;
-}
-
 .home-elements{
   display: flex;
   flex-flow: column nowrap;

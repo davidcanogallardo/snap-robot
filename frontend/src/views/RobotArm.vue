@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div id="titulo-main">
-      <router-link to="/"><h1>SNAP<i>!</i>-ROBOT</h1></router-link><Searchbar/>
+    <div id="titulo-main" :class="(logged)?'titulo-main-bubble' :''">
+      <router-link to="/"><h1>SNAP<i>!</i>-ROBOT</h1></router-link>
+      <Searchbar/>
+      <UserBubble  v-if="logged"></UserBubble>
     </div>
     <div class="robot-elements">
       <input type="text" class="input-code" placeholder="ENTER ROOM CODE" v-model="roomId">
@@ -14,15 +16,24 @@
 
 <script>
 import Searchbar from '../components/Searchbar.vue'
+import UserBubble from '../components/UserBubble.vue'
 export default {
   name: 'RobotArmComponent',
   components:{
-    Searchbar
+    Searchbar,
+    UserBubble
   },
   data() {
     return {
       roomId: ""
     }
+  },
+  props:{
+    logged:{
+      type: Boolean,
+      default: false
+    },
+    userData:{}
   },
   methods:{
     createRoom() {

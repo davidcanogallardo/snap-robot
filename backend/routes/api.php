@@ -17,12 +17,10 @@ use App\Http\Controllers\API\ProfileController;
 */
 
 Route::controller(RegisterController::class)->group(function(){
-
     Route::post('register', 'register');
-
     Route::post('login', 'login');
-
 });
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
@@ -37,8 +35,6 @@ Route::middleware('auth:sanctum')->group(function () {
             'succesful' => true
         ], 200);
     });
-
-    Route::post('/profile/{profileUsername}', [ProfileController::class, 'getPosts']);
     
     Route::post('/uploadProject', [ProfileController::class, 'uploadPost']);
 
@@ -47,3 +43,5 @@ Route::middleware('auth:sanctum')->group(function () {
     })->name('password.reset');
 });
 Route::get('/post/{postId}', [ProfileController::class, 'getPostById']);
+Route::post('/profile/{profileUsername}', [ProfileController::class, 'getPosts']);
+Route::get('/search/{searchParam}', [ProfileController::class, 'getPostsBySearch']);

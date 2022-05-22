@@ -10,7 +10,8 @@ class ProfileController extends Controller
 {
     function getPosts($profileUsername){
         $posts = DB::table('posts')->
-        where('username','=',$profileUsername)->get();
+        where('username','=',$profileUsername)->
+        orderBy('post_id','desc')->get();
 
         $array = json_decode(json_encode($posts), true); // stdClass to array
         return response()->json($array);
@@ -36,7 +37,15 @@ class ProfileController extends Controller
         } else{
             return response()->json(['success' => false, 'message' => 'El post no se ha publicado correctamente, revisa que hayas rellenado todos los campos!']);
         }
-        
+    }
 
+    function getPostsBySearch($searchParam){
+        $posts = DB::table('posts')->
+        where('username','like','%'.$searchParam.'%')->
+        orWhere('name','like','%'.$searchParam.'%')->
+        orWhere('post_desc','like','%'.$searchParam.'%')->get();
+
+        $array = json_decode(json_encode($posts), true); // stdClass to array
+        return response()->json($array);
     }
 }

@@ -1,5 +1,5 @@
 <template>
-  <label id="searchbar"  for="searchbar"><div v-if="titleOnTop">SEARCH FOR A PROJECT</div><input type="text" :placeholder="(titleOnTop)?'':'SEARCH FOR A PROJECT'"></label>
+  <label id="searchbar"  for="searchbar"><div v-if="titleOnTop">SEARCH FOR A PROJECT</div><input type="text" @keyup.enter="search" :placeholder="(titleOnTop)?'':'SEARCH FOR A PROJECT'"></label>
 </template>
 
 <script>
@@ -9,6 +9,11 @@ export default {
     titleOnTop:{
       type: Boolean, 
       default: false
+    }
+  },
+  methods:{
+    search(event){
+      this.$router.push("/search/"+event.target.value);
     }
   }
 }
