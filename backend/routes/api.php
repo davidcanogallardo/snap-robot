@@ -46,4 +46,4 @@ Route::middleware('auth:sanctum')->group(function () {
         return view('auth.reset-password', ['token' => $token]);
     })->name('password.reset');
 });
-Route::post('/post/{postId}', [ProfileController::class, 'getPostById']);
+Route::get('/post/{postId}', [ProfileController::class, 'getPostById']);

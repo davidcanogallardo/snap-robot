@@ -68,19 +68,7 @@
         <canvas id="arm"></canvas>
     </div>
     <script>
-        // peticion csrf cookie
-        $.ajax({
-            type: "GET",
-            url: `${window.apiUrl}csrf-cookie`,
-        })
-        .done((data) => {
-            console.error("peticion csrf-cookie funciona!");
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-        });
+
         
         // obtengo los parametros de la url
         const queryString = window.location.search;
@@ -93,20 +81,24 @@
         var snap = new Snap();
         var arm = new Arm(true);
 
-        // si hay un id de proyecto en la url pido al backend que me lo devuelva
         if (projectId) {
-            console.log("existe"+projectId);
-            this.getProjectData(projectId, (projectData) => {
-                console.log("seteo el proyecto en snap");
-                // 
-                // snap.importProject(projectData)
-            })
+                console.log("existe"+projectId);
+                this.getProjectData(projectId, (data) => {
+                    console.log("seteo el proyecto en snap", data);
+                    if (data.length > 0) {
+                        snap.importProject(data[0].project_file)
+                    } else {
+                        snap.showMessage("El proyecto no existe")
+                    }
+                })
         }
+
+
 
         function getProjectData(projectId, cb) {
             $.ajax({
                 type: "GET",
-                url: `${window.apiUrl}csrf-cookie`,
+                url: `${window.apiUrl}post/${projectId}`,
             })
             .done((data) => {
                 console.error("proyecto recibido de bd!");
