@@ -48,17 +48,17 @@ io.on('connection', (socket) => {
 
   socket.on('roomExists', (roomId, callback) => {
     callback({
-      "roomExists": roomExists(roomId)
+      "roomExists": roomExists(roomId.toUpperCase())
     })
   })
 
   socket.on('joinRoom', (roomId, callback) => {
-    if (roomExists(roomId)) {
+    if (roomExists(roomId.toUpperCase())) {
       callback({
         roomExists: true,
-        "armPositions": armPositions[roomId]
+        "armPositions": armPositions[roomId.toUpperCase()]
       })      
-      joinRoom(socket, roomId)
+      joinRoom(socket, roomId.toUpperCase())
     } else {
       callback({
         roomExists: false 
