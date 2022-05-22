@@ -50,7 +50,7 @@ export default {
     openProject(event){
       console.log(event.target.attributes.postid.value);
       var projectId = event.target.attributes.postid.value
-      window.location.href = window.snapUrl+"?projectId="+projectId
+      document.location.href = "."+window.snapUrl+"?projectId="+projectId
     }
   },
   mounted(){
