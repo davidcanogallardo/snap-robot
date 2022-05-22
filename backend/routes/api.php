@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
   
 use App\Http\Controllers\API\RegisterController;
+use App\Http\Controllers\API\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -36,6 +37,10 @@ Route::middleware('auth:sanctum')->group(function () {
             'succesful' => true
         ], 200);
     });
+
+    Route::post('/profile/{profileUsername}', [ProfileController::class, 'getPosts']);
+    Route::post('/post/{postId}', [ProfileController::class, 'getPostById']);
+    Route::post('/uploadProject', [ProfileController::class, 'uploadPost']);
 
     Route::get('/reset-password/{token}', function ($token) {
         return view('auth.reset-password', ['token' => $token]);

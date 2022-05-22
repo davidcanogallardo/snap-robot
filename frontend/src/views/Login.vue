@@ -40,7 +40,7 @@ export default {
              }
            })
            .catch((error)=>{
-             this.error =error.response.data.message; 
+             this.error = error.response.data.message; 
            });
          })
          .catch( (err)=>{
@@ -89,6 +89,5 @@ export default {
 
 .auth-error{
   color: rgb(128, 0, 0);
-  
 }
 </style>

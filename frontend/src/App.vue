@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view :style="routerStyle" :logged="isLogged" @changeLoggedState="changeLoggedState"></router-view>
+    <router-view :key="$route.path" :style="routerStyle" :logged="isLogged" :userData="userData" @changeLoggedState="changeLoggedState"></router-view>
+
+        <!-- <input type="button" value="Robot Simulation" @click="isLogged = true"> -->
   </div>
 </template>
 
@@ -10,6 +12,7 @@ export default {
   name: 'App',
   data: function() {
     return{
+      userData:{},
       routerStyle: "height: 100%",
       isLogged : false
     };
@@ -17,13 +20,40 @@ export default {
   methods:{
     changeLoggedState(state){
       this.isLogged = state;
+
+      if(state) this.setUserData();
+      else this.logout();
+    },
+    logout() {
+      localStorage.removeItem("isLogged");
+      localStorage.removeItem("userData");
+      axios.get("logout").then((response)=>{
+        if(response.data.succesful == true){
+          this.$emit("changeLoggedState", false);
+          location.reload();
+        }
+      });
+    },
+    setUserData(){
+      axios.get("user").then((response)=>{
+        localStorage.setItem("userData",JSON.stringify(response.data));
+        this.userData = response.data;
+        if(response.status == 200) this.isLogged = true;
+      })
+      .catch(()=>{
+        this.logout();
+      });
     }
   },
   mounted(){
     if(localStorage.getItem("isLogged") == "true"){
-      axios.get("user").then((response)=>{
-        console.log(response);
-      })
+      if (localStorage.getItem("userData") != null) {
+        this.userData = JSON.parse(localStorage.getItem("userData"));
+        this.isLogged = true;
+        this.setUserData();
+      } else {
+        this.setUserData();
+      }
     }
   }
 }

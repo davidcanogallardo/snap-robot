@@ -5,12 +5,12 @@
     </div>
     <div class="register-elements">
       <h1 class="register-title">REGISTER</h1>
-      <input type="text" v-model="registerForm.name" placeholder="Name">
+      <input type="text" v-model="registerForm.name" placeholder="Username">
       <input type="text" v-model="registerForm.email" placeholder="E-mail">
-      <input type="text" v-model="registerForm.username" placeholder="Username">
       <input type="password" v-model="registerForm.password" placeholder="Password">
       <input type="password" v-model="registerForm.c_password" placeholder="Confirm Password">
       <input type="button" @click="register" value="Register">
+      <p class="auth-error">{{error}}</p>
       <hr>
       <router-link to="/login"><input type="button" value="Login"></router-link>
     </div>
@@ -26,10 +26,10 @@ export default {
       registerForm:{
         name: "",
         email:"",
-        username:"",
         password:"",
         c_password:""
-      }
+      },
+      error:""
     };
   },
   methods:{
@@ -38,10 +38,11 @@ export default {
          console.log(response)
          axios.post("register", this.registerForm)
            .then((response)=>{
-             console.log(response);
+              console.log(response);
+              this.$router.push("/");
            })
            .catch((error)=>{
-             console.log(error);
+             this.error = error.response.data.message; 
            });
          })
          .catch( (err)=>{
@@ -86,5 +87,9 @@ export default {
 
 .register-title{
   font-family: 'JetBrains Mono', monospace;
+}
+
+.auth-error{
+  color: rgb(128, 0, 0);
 }
 </style>

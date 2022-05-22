@@ -2,7 +2,7 @@
   <div>
     <div id="titulo-main">
       <router-link to="/"><h1>SNAP<i>!</i>-ROBOT</h1></router-link>
-      <div class="userBubble" @click="logout"></div>
+      <UserBubble v-if="logged"></UserBubble>
     </div>
     <div class="home-elements">
       <Searchbar :titleOnTop="true" class="searchbar-home"/>
@@ -22,11 +22,12 @@
 
 <script>
 import Searchbar from '../components/Searchbar.vue'
-import axios from '../axios_import.js'
+import UserBubble from '@/components/UserBubble.vue';
 export default {
   name: 'HomeComponent',
   components:{
-    Searchbar
+    Searchbar,
+    UserBubble
   },
   props:{
     logged:{
@@ -42,11 +43,6 @@ export default {
       }
       localStorage.setItem("snapData", JSON.stringify(snapData))
       window.location.href = window.snapUrl;
-    },
-    logout() {
-      axios.get("logout").then((response)=>{
-        console.log(response);
-      });
     }
   }
 }
@@ -57,6 +53,7 @@ export default {
 #titulo-main{
   justify-content: space-between;
 }
+
 .home-elements{
   display: flex;
   flex-flow: column nowrap;
@@ -82,12 +79,5 @@ export default {
 
 .searchbar-home{
   margin: 0rem 0rem 3rem 0rem;
-}
-
-.userBubble{
-  width:50px;
-  height:50px;
-  background:#fff;
-  border-radius: 50%;
 }
 </style>
