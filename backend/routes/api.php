@@ -39,10 +39,11 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::post('/profile/{profileUsername}', [ProfileController::class, 'getPosts']);
-    Route::post('/post/{postId}', [ProfileController::class, 'getPostById']);
+    
     Route::post('/uploadProject', [ProfileController::class, 'uploadPost']);
 
     Route::get('/reset-password/{token}', function ($token) {
         return view('auth.reset-password', ['token' => $token]);
     })->name('password.reset');
 });
+Route::post('/post/{postId}', [ProfileController::class, 'getPostById']);
