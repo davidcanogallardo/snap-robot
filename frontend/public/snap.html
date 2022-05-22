@@ -17,6 +17,9 @@
     <!-- socket io -->
     <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
 
+    <!-- jquery ajax -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <!-- librerias SNAP! -->
     <meta name="theme-color" content="white"/>
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -64,19 +67,59 @@
     <div id="container" style="top: 30px;">
         <canvas id="arm"></canvas>
     </div>
-    
     <script>
-        var snapData = localStorage.getItem("snapData")
-        console.log(snapData);
+        // peticion csrf cookie
+        $.ajax({
+            type: "GET",
+            url: `${window.apiUrl}csrf-cookie`,
+        })
+        .done((data) => {
+            console.error("peticion csrf-cookie funciona!");
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        });
+        
+        // obtengo los parametros de la url
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const projectId = urlParams.get('projectId')
+
+        // creo instancias de las clases necesarias
         var sc = new SocketClient();
         var ac = new ArmController();
-
-        var snap = new Snap({
-            "blocks": snapData?.blocks,
-            "project": snapData?.project
-        });
-
+        var snap = new Snap();
         var arm = new Arm(true);
+
+        // si hay un id de proyecto en la url pido al backend que me lo devuelva
+        if (projectId) {
+            console.log("existe"+projectId);
+            this.getProjectData(projectId, (projectData) => {
+                console.log("seteo el proyecto en snap");
+                // 
+                snap.importProject(projectData)
+            })
+        }
+
+        function getProjectData(projectId, cb) {
+            $.ajax({
+                type: "GET",
+                url: `${window.apiUrl}csrf-cookie`,
+            })
+            .done((data) => {
+                console.error("proyecto recibido de bd!");
+                if (cb) {
+                    cb(data)
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            });
+        }
     </script>
 </body>
 </html>
