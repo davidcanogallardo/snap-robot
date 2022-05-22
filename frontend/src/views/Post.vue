@@ -14,7 +14,7 @@
       <div class="projects-container">
         <div class="project">
           <h2>Description:</h2>{{post.post_desc}} <br>
-          <input type="button" value="Open Project" @click="openProject" :postId="project.post_id">
+          <input type="button" value="Open Project" @click="openProject" :postId="post.post_id">
         </div>
       </div>
     </div>
