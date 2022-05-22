@@ -102,7 +102,7 @@ class Arm {
             if (window.innerWidth < 990 ) {
                 camera.scale.x = 0.5
             } else {
-                camera.scale.x = 0.7
+                camera.scale.x = 1
 
             }
 
