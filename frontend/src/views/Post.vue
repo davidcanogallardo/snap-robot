@@ -49,7 +49,8 @@ export default {
   methods:{
     openProject(event){
       console.log(event.target.attributes.postid.value);
-      //TODO LOCATION HREF OR SOMETHING
+      var projectId = event.target.attributes.postid.value
+      window.location.href = window.snapUrl+"?projectId="+projectId
     }
   },
   mounted(){
