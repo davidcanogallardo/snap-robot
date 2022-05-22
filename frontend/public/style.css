@@ -12,3 +12,57 @@
 #arm {
     z-index: 1;
 }
+
+#info {
+    position: absolute;
+    z-index: 999;
+    top: 20px;
+    left: 20px;
+    padding: 0.8rem;
+    background-color: rgb(41, 41, 36);
+    outline: none;
+    color: rgb(248, 248, 233);
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid rgba(20, 20, 20, 0.7);
+    box-shadow: inset 0px 0px 7px 1px rgba(20, 20, 20, 0.7);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    width: 16rem;
+    align-items: center;
+    text-align: center;
+}
+
+#socket {
+    font-weight: bold;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.btn {
+    background: rgb(83, 83, 73);
+    color: rgb(248, 248, 233);
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border: 1px solid rgba(20, 20, 20, 0.7);
+    box-shadow: 0px 0px 5px 0px rgba(20, 20, 20, 0.7);
+    border-radius: 5px;
+    display: flex;
+    margin: 0.25rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+}
+
+.btn:hover {
+    box-shadow: none;
+    box-shadow:  0px 0px 5px 1px rgb(199, 179, 0);
+}
+
+#socket:hover {
+    text-shadow: 0px 0 0px #ffe478;
+    filter: drop-shadow(0px 0px 1px #ffe478);
+}
+svg:hover {
+}
