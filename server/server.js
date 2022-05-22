@@ -35,9 +35,9 @@ io.on('connection', (socket) => {
   });
 
   socket.on('createRoom', (callback) => {
-    var roomId = (Math.random() + 1).toString(36).substring(6).toUpperCase();
+    var roomId = (Math.random() + 1).toString(36).substring(8).toUpperCase();
     while (armPositions[roomId]) {
-      roomId = (Math.random() + 1).toString(36).substring(6).toUpperCase();
+      roomId = (Math.random() + 1).toString(36).substring(8).toUpperCase();
     }
     armPositions[roomId] = JSON.parse(JSON.stringify(defaultPositions))
     
