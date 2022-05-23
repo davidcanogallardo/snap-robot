@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
-    function getPosts($profileUsername){
+    function getPostsByUser($profileUsername){
         $posts = DB::table('posts')->
         where('username','=',$profileUsername)->
         orderBy('post_id','desc')->get();
@@ -44,6 +44,13 @@ class ProfileController extends Controller
         where('username','like','%'.$searchParam.'%')->
         orWhere('name','like','%'.$searchParam.'%')->
         orWhere('post_desc','like','%'.$searchParam.'%')->get();
+
+        $array = json_decode(json_encode($posts), true); // stdClass to array
+        return response()->json($array);
+    }
+
+    function getPosts(){
+        $posts = DB::table('posts')->get();
 
         $array = json_decode(json_encode($posts), true); // stdClass to array
         return response()->json($array);

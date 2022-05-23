@@ -6,7 +6,7 @@
       <UserBubble  v-if="logged"></UserBubble>
     </div>
     <div class="profile-elements">
-      <h1>Results from search: {{searchParam}}
+      <h1>Results from search: "{{searchParam}}"
       <br>
       </h1>
       <div class="projects-container">
@@ -71,7 +71,8 @@ export default {
   },
   mounted(){
     this.searchParam = this.$route.params.searchParam;
-    this.getPostsFromServer(this.searchParam);
+    if(this.$route.params.searchParam != undefined) this.getPostsFromServer(this.searchParam);
+    else this.getPostsFromServer("");
   }
 }
 </script>

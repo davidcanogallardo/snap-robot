@@ -43,5 +43,6 @@ Route::middleware('auth:sanctum')->group(function () {
     })->name('password.reset');
 });
 Route::get('/post/{postId}', [ProfileController::class, 'getPostById']);
-Route::post('/profile/{profileUsername}', [ProfileController::class, 'getPosts']);
+Route::post('/profile/{profileUsername}', [ProfileController::class, 'getPostsByUser']);
 Route::get('/search/{searchParam}', [ProfileController::class, 'getPostsBySearch']);
+Route::get('/search', [ProfileController::class, 'getPosts']);

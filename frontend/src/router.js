@@ -74,6 +74,14 @@ const routes = [
       meta: {
         guest: true
       }
+    },
+    {
+      path: "/search",
+      name: "searchAll",
+      component: Search,
+      meta: {
+        guest: true
+      }
     }
   ];
   
