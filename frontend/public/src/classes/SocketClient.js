@@ -3,9 +3,9 @@ class SocketClient {
         this.socket = io(socketUrl)
         this.connected = false
     }
-    connectToRoom(roomId, cb) {
+    connectToRoom(roomId, isSnapUser, cb) {
         console.log(roomId);
-        this.socket.emit("joinRoom", roomId, (data) => {
+        this.socket.emit("joinRoom", roomId, isSnapUser, (data) => {
             if (data.roomExists) {
                 console.log(`existe la sala1112 ${roomId}`);
                 this.roomId = roomId

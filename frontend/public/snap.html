@@ -74,12 +74,19 @@
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const projectId = urlParams.get('projectId')
+        const roomId = urlParams.get('roomId')
+
+
 
         // creo instancias de las clases necesarias
         var sc = new SocketClient();
         var ac = new ArmController();
         var snap = new Snap();
         var arm = new Arm(true);
+
+        if (roomId) {
+            snap.connectToSocketRoom(roomId)
+        }
 
         if (projectId) {
                 console.log("existe"+projectId);

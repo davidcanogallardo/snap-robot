@@ -9,7 +9,8 @@
       <input type="text" class="input-code" placeholder="INTRODUCE CÓDIGO DE SALA" v-model="roomId">
       <input type="button" value="Unirme a una sala" @click="joinRoom">
       <hr>
-      <input type="button" value="Crear una sala" @click="createRoom">
+      <input type="button" value="Crear una sala" @click="createRoom(false)">
+      <input type="button" value="Crear una sala para snap" @click="createRoom(true)">
     </div>
   </div>
 </template>
@@ -36,10 +37,19 @@ export default {
     userData:{}
   },
   methods:{
-    createRoom() {
+    createRoom(snap) {
+      var url
+      if (snap) {
+        url = window.snapUrl
+      } else {
+        url = window.armUrl
+      }
+      console.log(url);
+      console.log(window.armUrl);
+      console.log(window.snapUrl);
       this.$socket.emit('createRoom', (data) => {
         console.log("socket data", data);
-        this.redirect(data.roomId)
+        this.redirect(data.roomId, url)
       })
     },
     joinRoom() {
@@ -49,20 +59,20 @@ export default {
         this.$socket.emit('roomExists', this.roomId, (data) => {
           console.log("socket data", data);
           if (data.roomExists) {
-            this.redirect(this.roomId)
+            this.redirect(this.roomId, window.armUrl)
           } else {
             this.wrongCode()
           }
         })
       }
     },
-    redirect(roomId) {
+    redirect(roomId, url) {
       console.log(roomId,1111)
       var socketData = {
         "armRoomId": roomId,
       }
       localStorage.setItem("socketData", JSON.stringify(socketData))
-      document.location.href = window.armUrl+"?roomId="+roomId;
+      document.location.href = url+"?roomId="+roomId;
     },
     wrongCode(){
       let inputCode = document.querySelector('.input-code');

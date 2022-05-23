@@ -19,11 +19,14 @@ var defaultPositions = {
   naranja: {_x:0,_y:0,_z:0}
 };
 
-var armPositions = {}
+var allRoomsInfo = {}
 
 io.on('connection', (socket) => {
   socket.on('disconnect', () => {
-    // console.log('user disconnected');
+    console.log("user disconnected");
+    if (socket.controller) {
+      allRoomsInfo[socket.roomId].canControl = true
+    }
   });
 
   socket.on('stopQueue', () => {
@@ -36,11 +39,18 @@ io.on('connection', (socket) => {
 
   socket.on('createRoom', (callback) => {
     var roomId = (Math.random() + 1).toString(36).substring(8).toUpperCase();
-    while (armPositions[roomId]) {
+    while (allRoomsInfo[roomId]) {
       roomId = (Math.random() + 1).toString(36).substring(8).toUpperCase();
     }
-    armPositions[roomId] = JSON.parse(JSON.stringify(defaultPositions))
-    
+    var roomInfo = {
+      positions:JSON.parse(JSON.stringify(defaultPositions)),
+      canControl: true
+    }
+    allRoomsInfo[roomId] = roomInfo
+    socket.controller = false
+
+    console.log(roomId, roomInfo);
+
     callback({
       "roomId": roomId
     })
@@ -58,13 +68,29 @@ io.on('connection', (socket) => {
     }
   })
 
-  socket.on('joinRoom', (roomId, callback) => {
+  socket.on('joinRoom', (roomId, snapUser,callback) => {
     if (roomId) {
       if (roomExists(roomId.toUpperCase())) {
-        callback({
-          roomExists: true,
-          "armPositions": armPositions[roomId.toUpperCase()]
-        })      
+        if (snapUser) {
+          if (allRoomsInfo[roomId.toUpperCase()].canControl) {
+            allRoomsInfo[roomId.toUpperCase()].canControl = false
+            socket.controller = true
+            console.log("canControll");
+          } else {
+            console.log("cantControll");
+          }
+          callback({
+            roomExists: socket.controller,
+            "armPositions": allRoomsInfo[roomId.toUpperCase()].positions
+          })  
+        } else {
+          callback({
+            roomExists: true,
+            "armPositions": allRoomsInfo[roomId.toUpperCase()].positions
+          })  
+
+        }
+    
         joinRoom(socket, roomId.toUpperCase())
       } else {
         callback({
@@ -85,17 +111,23 @@ io.on('connection', (socket) => {
   })
 
   socket.on('sendRotation', (data) => {
-    socket.to(socket.roomId).emit('rotate', data);
-    // socket.broadcast.emit('rotate', data);
+    if (socket.controller) {
+      socket.to(socket.roomId).emit('rotate', data);
+    }
   });
 
   socket.on('sendArmPosition2', (data) => {
-    socket.to(socket.roomId).emit('positionArm2', data);
+    if (socket.controller) {
+      socket.to(socket.roomId).emit('positionArm2', data);
+    }
   });
 
   socket.on("updateArmRotation", (data) => {
-    console.log(`room ${socket.roomId} actualiza coords`);
-    armPositions[socket.roomId] = data
+    if (socket.controller) {
+      console.log(`room ${socket.roomId} actualiza coords`);
+      allRoomsInfo[socket.roomId].positons = data
+    }
+    
     // defaultPositions = data
   });
   
@@ -113,7 +145,7 @@ function joinRoom(socket, roomId) {
 }
 
 function roomExists(roomId) {
-  if (!armPositions[roomId]) {
+  if (!allRoomsInfo[roomId]) {
     return false
   } else {
     return true

@@ -121,12 +121,18 @@ class Snap {
     }
 
     // Llama a la funcion de la clase SocketClient para conectarse a una salal
-    connectToSocketRoom() {
-        var roomId = this.roomIdInput.children[0].text.text
-        sc.connectToRoom(roomId, (socketConnect) => {
+    connectToSocketRoom(room) {
+        var roomId;
+        if (room) {
+            roomId = room
+        } else {
+            roomId = this.roomIdInput.children[0].text.text
+        }
+        sc.connectToRoom(roomId, true, (socketConnect) => {
             // Callback para saber si la sala existe o no
             this.updateSocketInfo(socketConnect)
             if (socketConnect) {
+                this.roomIdInput.children[0].text.text = roomId
                 this.showMessage(`Conectado a sala ${roomId}`)
             } else {
                 this.showMessage("No existe la sala")
