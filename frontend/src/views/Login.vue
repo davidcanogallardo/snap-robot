@@ -6,11 +6,11 @@
     <div class="login-elements">
       <h1 class="login-title">LOGIN</h1>
       <input type="text" v-model="loginForm.email" placeholder="E-mail">
-      <input type="password" v-model="loginForm.password" placeholder="Password">
+      <input type="password" v-model="loginForm.password" placeholder="Contraseña">
       <input type="button" @click="login" value="Login">
       <p class="auth-error">{{error}}</p>
       <hr>
-      <router-link to="/register"><input type="button" value="Register"></router-link>
+      <router-link to="/register"><input type="button" value="Registrarse"></router-link>
     </div>
   </div>
 </template>

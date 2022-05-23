@@ -4,12 +4,12 @@
       <router-link to="/"><h1>SNAP<i>!</i>-ROBOT</h1></router-link>
     </div>
     <div class="register-elements">
-      <h1 class="register-title">REGISTER</h1>
+      <h1 class="register-title">REGISTRARSE</h1>
       <input type="text" v-model="registerForm.name" placeholder="Username">
       <input type="text" v-model="registerForm.email" placeholder="E-mail">
-      <input type="password" v-model="registerForm.password" placeholder="Password">
-      <input type="password" v-model="registerForm.c_password" placeholder="Confirm Password">
-      <input type="button" @click="register" value="Register">
+      <input type="password" v-model="registerForm.password" placeholder="Contraseña">
+      <input type="password" v-model="registerForm.c_password" placeholder="Repetir Contraseña">
+      <input type="button" @click="register" value="Registrarse">
       <p class="auth-error">{{error}}</p>
       <hr>
       <router-link to="/login"><input type="button" value="Login"></router-link>

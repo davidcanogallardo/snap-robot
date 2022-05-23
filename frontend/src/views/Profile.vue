@@ -12,17 +12,17 @@
       </h1>
       <div class="projects-container">
         <div class="project" v-if="userData.name == username">
-          <input type="text" v-model="uploadForm.name" placeholder="Project Name"> by {{username}} <br>
-          <textarea name="desc" v-model="uploadForm.description" id="project-desc" placeholder="Project description"></textarea>
+          <input type="text" v-model="uploadForm.name" placeholder="Nombre del proyecto"> by {{username}} <br>
+          <textarea name="desc" v-model="uploadForm.description" id="project-desc" placeholder="Descripción del proyecto"></textarea>
           <input type="file" name="project-upload" id="file-project-upload" @change="interceptFile"> <br>
           <p class="upload-error">{{error}}</p>
           <input type="button" @click="uploadFileToServer" value="Upload Project">
         </div>
-        <h1 v-if="userPosts.length == 0 && username != userData.name" style="color:rgb(41, 41, 36)">User has no projects</h1>
+        <h1 v-if="userPosts.length == 0 && username != userData.name" style="color:rgb(41, 41, 36)">El usuario no tiene proyectos</h1>
         <div v-for="project in userPosts" :key="project.post_id" class="project">
           <h2>{{project.name}}</h2> by {{project.username}} <br>
-          <input type="button" value="Project Details" @click="projectDetails" :postId="project.post_id">
-          <input type="button" value="Open Project" @click="openProject" :postId="project.post_id">
+          <input type="button" value="Detalles del proyecto" @click="projectDetails" :postId="project.post_id">
+          <input type="button" value="Abrir proyecto" @click="openProject" :postId="project.post_id">
         </div>
       </div>
     </div>

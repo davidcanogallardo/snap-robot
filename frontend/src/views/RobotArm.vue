@@ -6,10 +6,10 @@
       <UserBubble  v-if="logged"></UserBubble>
     </div>
     <div class="robot-elements">
-      <input type="text" class="input-code" placeholder="ENTER ROOM CODE" v-model="roomId">
-      <input type="button" value="Join to a room" @click="joinRoom">
+      <input type="text" class="input-code" placeholder="INTRODUCE CÓDIGO DE SALA" v-model="roomId">
+      <input type="button" value="Unirme a una sala" @click="joinRoom">
       <hr>
-      <input type="button" value="Host a robotic arm" @click="createRoom">
+      <input type="button" value="Crear una sala" @click="createRoom">
     </div>
   </div>
 </template>

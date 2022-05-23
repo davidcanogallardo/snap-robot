@@ -6,15 +6,15 @@
       <UserBubble  v-if="logged"></UserBubble>
     </div>
     <div class="profile-elements">
-      <h1>Results from search: "{{searchParam}}"
+      <h1>Results de la búsqueda: "{{searchParam}}"
       <br>
       </h1>
       <div class="projects-container">
         <h1 v-if="userPosts.length == 0" style="color:rgb(41, 41, 36)">No projects found</h1>
         <div v-for="project in userPosts" :key="project.post_id" class="project">
           <h2>{{project.name}}</h2> by {{project.username}} <br>
-          <input type="button" value="Project Details" @click="projectDetails" :postId="project.post_id">
-          <input type="button" value="Open Project" @click="openProject" :postId="project.post_id">
+          <input type="button" value="Detalles del proyecto" @click="projectDetails" :postId="project.post_id">
+          <input type="button" value="Abrir proyecto" @click="openProject" :postId="project.post_id">
         </div>
       </div>
     </div>

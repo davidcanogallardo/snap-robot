@@ -7,15 +7,15 @@
     <div class="home-elements">
       <Searchbar :titleOnTop="true" class="searchbar-home"/>
       <router-link to="/robotArm">
-        <input type="button" value="Robot Simulation">
+        <input type="button" value="Simulación de robot online">
       </router-link>
       <!-- <a href="./snap.html"> -->
       <a @click="launchSnap()">
-        <input type="button" value="Control a robot">
+        <input type="button" value="Controlar un robot offline">
       </a>
       <hr v-if="!logged">
       <router-link to="/login"><input v-if="!logged" type="button" value="Login"></router-link>
-      <router-link to="/register"><input v-if="!logged" type="button" value="Register"></router-link>
+      <router-link to="/register"><input v-if="!logged" type="button" value="Registrarse"></router-link>
     </div>
   </div>
 </template>
@@ -66,7 +66,7 @@ export default {
 }
 
 .home-elements input[type=button]{
-  width: 17rem;
+  min-width: 17rem;
 }
 
 .home-elements input[type=text]{
