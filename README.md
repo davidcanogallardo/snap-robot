@@ -1,3 +1,10 @@
+# Deploy
+[deploy](https://github.com/davidcanogallardo/snap-robot/wiki/Deploy)
+
+# Manual de usuario
+
+[manual](https://help.snap-robot.es)
+
 # Links de interés:
 - [Wireframe de la pagina web](https://www.figma.com/file/ivortbEci36mE0TBc2efWn/SNAP!-ROBOT?node-id=0%3A1)
 - [link al trello](https://trello.com/b/GIM00SSI/snap-robot)
