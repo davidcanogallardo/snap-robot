@@ -66,7 +66,7 @@ class Arm {
         // scene.add(axes);
       
         // render
-        var renderer = new THREE.WebGLRenderer({canvas:armCanvas});
+        var renderer = new THREE.WebGLRenderer({canvas:armCanvas,antialias:false,precision:"lowp"});
         if (this.armWithSnap) {
             renderer.setSize( 
                 window.world.children[0].children[2].width() - 30, 
