@@ -130,13 +130,15 @@ class Snap {
         }
         sc.connectToRoom(roomId, true, (socketConnect) => {
             // Callback para saber si la sala existe o no
-            this.updateSocketInfo(socketConnect)
             if (socketConnect) {
                 this.roomIdInput.children[0].text.text = roomId
+                console.log("room id input",this.roomIdInput.children[0].text.text);
                 this.showMessage(`Conectado a sala ${roomId}`)
             } else {
-                this.showMessage("No existe la sala")
+                this.showMessage("No puedes conectarte a la sala")
             }
+            this.updateSocketInfo(socketConnect)
+
         })
     }
     
@@ -149,6 +151,8 @@ class Snap {
     // Actualiza la interfaz de socket del snap para informar si está conectado a una sala o no
     updateSocketInfo(socketConnect) {
         if (socketConnect) {
+            console.log("aa");
+            console.log(this.roomIdInput.children[0].text.text);
             this.socketPanel.children[1].text = `Conectado a sala ${this.roomIdInput.children[0].text.text}` 
             this.socketPanel.children[1].rerender() 
             this.socketPanel.children[4].isVisible = true
