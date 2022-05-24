@@ -103,11 +103,11 @@ export default {
 }
 
 .robot-elements input[type=button]{
-  width: 17rem;
+  min-width: 17rem;
 }
 
 .robot-elements input[type=text]{
-  width: 17rem;
+  min-width: 17rem;
 }
 
 .wrongCode {
