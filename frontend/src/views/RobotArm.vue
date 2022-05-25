@@ -9,7 +9,7 @@
       <input type="text" class="input-code" placeholder="INTRODUCE CÓDIGO DE SALA" v-model="roomId">
       <input type="button" value="Unirme a una sala" @click="joinRoom">
       <hr class="open-snap">
-      <input type="button" value="Crear una sala" class="open-snap" @click="createRoom(false)">
+      <input type="button" value="Crear una sala" @click="createRoom(false)">
       <input type="button" value="Crear una sala para snap" class="open-snap" @click="createRoom(true)">
     </div>
   </div>
