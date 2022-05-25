@@ -11,7 +11,7 @@
       </router-link>
       <!-- <a href="./snap.html"> -->
       <a @click="launchSnap()">
-        <input type="button" value="Controlar un robot offline">
+        <input type="button" value="Controlar un robot offline" class="open-snap">
       </a>
       <hr v-if="!logged">
       <router-link to="/login"><input v-if="!logged" type="button" value="Login"></router-link>
@@ -75,6 +75,12 @@ export default {
 @media screen and (max-width: 1225px) {
   .userBubble{
     background:rgb(75, 75, 75);
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .open-snap{
+    display: none;
   }
 }
 </style>

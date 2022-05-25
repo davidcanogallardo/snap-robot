@@ -14,7 +14,7 @@
         <div v-for="project in userPosts" :key="project.post_id" class="project">
           <h2>{{project.name}}</h2> by {{project.username}} <br>
           <input type="button" value="Detalles del proyecto" @click="projectDetails" :postId="project.post_id">
-          <input type="button" value="Abrir proyecto" @click="openProject" :postId="project.post_id">
+          <input type="button" value="Abrir proyecto" @click="openProject" class="open-snap" :postId="project.post_id">
         </div>
       </div>
     </div>
@@ -146,6 +146,12 @@ textarea{
   .projects-container{
     width: 100%;
     background: transparent;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .open-snap{
+    display: none;
   }
 }
 </style>

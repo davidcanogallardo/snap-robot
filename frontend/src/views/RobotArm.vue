@@ -8,9 +8,9 @@
     <div class="robot-elements">
       <input type="text" class="input-code" placeholder="INTRODUCE CÓDIGO DE SALA" v-model="roomId">
       <input type="button" value="Unirme a una sala" @click="joinRoom">
-      <hr>
-      <input type="button" value="Crear una sala" @click="createRoom(false)">
-      <input type="button" value="Crear una sala para snap" @click="createRoom(true)">
+      <hr class="open-snap">
+      <input type="button" value="Crear una sala" class="open-snap" @click="createRoom(false)">
+      <input type="button" value="Crear una sala para snap" class="open-snap" @click="createRoom(true)">
     </div>
   </div>
 </template>
@@ -130,6 +130,12 @@ export default {
 
   40%, 60% {
     transform: translate3d(4px, 0, 0);
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .open-snap{
+    display: none;
   }
 }
 </style>
