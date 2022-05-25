@@ -16,7 +16,7 @@
           <textarea name="desc" v-model="uploadForm.description" id="project-desc" placeholder="Descripción del proyecto"></textarea>
           <input type="file" name="project-upload" id="file-project-upload" @change="interceptFile"> <br>
           <p class="upload-error">{{error}}</p>
-          <input type="button" @click="uploadFileToServer" value="Upload Project">
+          <input type="button" @click="uploadFileToServer" value="Subir proyecto">
         </div>
         <h1 v-if="userPosts.length == 0 && username != userData.name" style="color:rgb(41, 41, 36)">El usuario no tiene proyectos</h1>
         <div v-for="project in userPosts" :key="project.post_id" class="project">
@@ -195,5 +195,24 @@ textarea{
 
 .upload-error{
   color: rgb(70, 0, 0);
+}
+
+@media screen and (max-width: 1225px) {
+  .profile-elements{
+    width: 90%;
+  }
+  .projects-container{
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 670px) {
+  .profile-elements{
+    width: 100%;
+  }
+  .projects-container{
+    width: 100%;
+    background: transparent;
+  }
 }
 </style>

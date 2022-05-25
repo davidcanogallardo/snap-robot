@@ -92,8 +92,6 @@ export default {
 }
 
 .profile-elements h1{
-  width: max-content;
-  white-space:nowrap;
   margin: 1rem;
 }
 .projects-container{
@@ -130,5 +128,24 @@ textarea{
 
 .upload-error{
   color: rgb(70, 0, 0);
+}
+
+@media screen and (max-width: 1225px) {
+  .profile-elements{
+    width: 90%;
+  }
+  .projects-container{
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 670px) {
+  .profile-elements{
+    width: 100%;
+  }
+  .projects-container{
+    width: 100%;
+    background: transparent;
+  }
 }
 </style>

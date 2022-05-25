@@ -91,14 +91,9 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   align-content: center;
-  margin: auto;
+  margin: 6rem auto;
   align-items: center;
   gap: 20px;
-  position: absolute;
-  vertical-align: center;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  top: 45%;
   width: 100%;
 }
 

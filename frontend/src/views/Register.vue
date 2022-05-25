@@ -62,17 +62,9 @@ export default {
   flex-flow: column nowrap;
   align-content: center;
   justify-content: space-evenly;
-  margin: auto;
+  margin: 6rem auto;
   align-items: center;
   gap: 20px;
-  position: absolute;
-  vertical-align: center;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  top: 20%;
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
-  left: 50%;
   width: 24rem;
   padding: 1.75rem;
 }

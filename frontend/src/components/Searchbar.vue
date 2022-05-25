@@ -22,7 +22,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #searchbar{
-  width: 50%; 
+  max-width: 95%;
+  width: 50rem; 
   font-size: 1.35rem;
 }
 

@@ -62,4 +62,10 @@ export default {
     width: 1rem;
     height: auto;
   }
+
+@media screen and (max-width: 1225px) {
+  .userBubble{
+    background: transparent;
+  }
+}
 </style>
