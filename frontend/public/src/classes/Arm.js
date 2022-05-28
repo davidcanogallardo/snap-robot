@@ -303,16 +303,16 @@ class Arm {
         console.log(data);
         switch (data.arm) {
             case "amarillo":
-                this.all.rotation.set(0, THREE.Math.degToRad(data.degrees), 0);
+                this.all.rotation.set(0, THREE.MathUtils.degToRad(data.degrees), 0);
                 break;
             case "rojo":
-                this.redPivot.rotation.set(0, 0, THREE.Math.degToRad(data.degrees));
+                this.redPivot.rotation.set(0, 0, THREE.MathUtils.degToRad(data.degrees));
                 break;
             case "rosa":
-                this.pinkPivot.rotation.set(0, 0, THREE.Math.degToRad(data.degrees));
+                this.pinkPivot.rotation.set(0, 0, THREE.MathUtils.degToRad(data.degrees));
                 break;
             case "naranja":
-                this.pivotGroup.rotation.set(0, 0, THREE.Math.degToRad(data.degrees));
+                this.pivotGroup.rotation.set(0, 0, THREE.MathUtils.degToRad(data.degrees));
                 break;
         }
         if (callback) {
