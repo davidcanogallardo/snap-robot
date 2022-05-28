@@ -62,7 +62,7 @@ class Arm {
         window.camera = camera;
       
         //AXES HELPER
-        var axes = new THREE.AxisHelper(25);
+        // var axes = new THREE.AxisHelper(25);
         // scene.add(axes);
       
         // render
@@ -282,16 +282,16 @@ class Arm {
     rotateArm(arm, degrees) {
         switch (arm) {
             case "rojo":
-                this.redPivot.rotateZ(THREE.Math.degToRad(degrees))
+                this.redPivot.rotateZ(THREE.MathUtils.degToRad(degrees))
                 break;
             case "amarillo":
-                this.all.rotateY(THREE.Math.degToRad(degrees))
+                this.all.rotateY(THREE.MathUtils.degToRad(degrees))
                 break;
             case "rosa":
-                this.pinkPivot.rotateZ(THREE.Math.degToRad(degrees))
+                this.pinkPivot.rotateZ(THREE.MathUtils.degToRad(degrees))
                 break;
             case "naranja":
-                this.pivotGroup.rotateZ(THREE.Math.degToRad(degrees))
+                this.pivotGroup.rotateZ(THREE.MathUtils.degToRad(degrees))
                 break;
         }
     }
